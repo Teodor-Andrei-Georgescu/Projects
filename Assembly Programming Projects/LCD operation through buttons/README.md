@@ -6,4 +6,6 @@ Two, the bottom left of the LCD display will show the last button that was press
 Three, on the top row of the LCD display, the left or right buttons would move the cursor to different columns. Then, for each column, the up or down would be used to cycle and display different values from the "AVAILABLE_CHERSET" string near the bottom of the file. 
 Please note that each column could be at a different place in the string, and when at the column, the up and down buttons would start from that point in the string.
 
+The LCD.asm and LCDdefs.inc files were the helper files provided for this assignment.
+
 For exact details and specifications, please read the PDF.
