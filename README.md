@@ -7,3 +7,5 @@ Please look at any that interest you.
 **The operating system projects are all coded in C.**
 
 **The basic python projects are all from an introductory class.**
+
+**The basic java projects are all from another introductory class.** 
