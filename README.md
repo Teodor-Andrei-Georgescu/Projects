@@ -9,3 +9,5 @@ Please look at any that interest you.
 **The basic python projects are all from an introductory class.**
 
 **The basic java projects are all from another introductory class.** 
+
+**The Little Lemon website is a full stack project done in Python using the Django framework**
