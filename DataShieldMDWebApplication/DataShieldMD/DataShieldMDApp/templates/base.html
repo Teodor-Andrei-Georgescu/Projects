@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Data Shield MD</title>
+    <meta name="description" content="A brief description" />
+    <meta
+      name="Teodor Andrei Georgescu"
+      content="A web application uses where one can upload medical datasets and get them prepared for publishing."
+    />
+    <!-- Include your CSS files here -->
+    <link
+      rel="preload"
+      as="style"
+      href="{% static 'css/style.css' %}"
+      onload="this.rel = 'stylesheet'"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Karla&family=Markazi+Text:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    {% include "header.html" %}
+    
+
+    <main>
+       <!-- Begin block content --> 
+       {% block content %}
+        
+       {% endblock %}
+      <!-- End block content --> 
+    </main>
+
+    {% include "footer.html" %}
+  </body>
+</html>
