@@ -1,12 +1,17 @@
  <!-- Add code to load static content-->
- {% load static %}
- <header.header>
-    <nav>
-        <ul class="logo">
-            <img src="{% static 'img/DataShieldMDlogo.jpg' %}" alt="Data Shield MD Logo"width="75px" height="50px">
-            <li><a>Home</a></li>
-            <li><a >How We Do It</a></li>
-            <button class="auth-btn">Login or register</button>
+{% load static %}
+<nav class="navbar">
+    <div class="navdiv">
+        <div>
+            <span>Data Shield MD</span>
+            <div class="logo">
+                <img src="{% static 'img/DataShieldMDlogo.jpg' %}" alt="Data Shield MD Logo">
+            </div>
+        </div>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">How We Do It</a></li>
+            <button class="auth-btn"><a href="#">Login or register</a></button>
         </ul>
-    </nav>
-</header>
+    </div>
+</nav>

@@ -1,12 +1,16 @@
 {% load static %}
 <!-- Footer -->
-<footer.footer>
-    <nav>
-        <ul>
+<nav class="navbar">
+    <div class="navdiv">
+        <div>
             <span>Data Shield MD</span>
-            <img src="{% static 'img/DataShieldMDlogo.jpg' %}" alt="Data Shield MD Logo" width="75px" height="50px">
-            <p>Contact us</p>
+            <div class="logo">
+                <img src="{% static 'img/DataShieldMDlogo.jpg' %}" alt="Data Shield MD Logo">
+            </div>
+        </div>
+        <div class="contact-info">
+            <p class="contact-us">Contact us</p>
             <p>Email: <a href="mailto:DataShieldMD@gmail.com">DataShieldMD@gmail.com</a></p>
-        </ul>
-    </nav>
-</footer>
+        </div>
+    </div>
+ </nav>

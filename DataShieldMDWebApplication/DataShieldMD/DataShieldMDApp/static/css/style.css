@@ -1,42 +1,59 @@
-body {
-    font-family: Arial, sans-serif;
-    color: #333;
+.navbar {
+    background-color: #9fbb9a;
+    font-family: calibri; 
+    padding-right: 15px;
+    padding-left: 15px; 
+    border: 1px solid lightgray;
 }
 
-/* Header */
-.header {
+.navdiv {
     display: flex;
-    align-items: left;
-    padding: 10px 20px;
-    background-color: #d1f3d3;
-    border-bottom: 2px solid #333;
-}
-
-.logo {
-    align-items: left;
+    justify-content: space-between;
+    border: 2px solid rgb(97, 49, 141);
 }
 
 .logo img {
-    height: 40px;
-    margin-right: 10px;
-    border-radius: 50%;
+    width: 75px; 
+    height: 50px;
+    border-radius: 65%;
+    margin-left: 20px;
+
+}
+.navdiv span {
+    font-size: 20px;
+    font-weight: 600;
+    color: #111111;
 }
 
-.logo-span {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
+.navdiv ul li {
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    list-style: none;
+    margin-right: 21em;
+    display: inline-block;
 }
 
-.nav-links {
-    list-style-type: none;
-    display: flex;
-    gap: 1.5rem;
+.navdiv ul li:hover{
+    text-decoration: underline;
+    color: #5a5959;
 }
-
-.nav-links a {
+.navdiv ul li a:hover{
+    text-decoration: underline;
+    color: #5a5959;
+}
+.navdiv ul li a:active{
+    text-decoration: underline;
+}
+.navdiv ul li a:visited{
     text-decoration: none;
-    color: #333;
+}
+.navdiv ul li a:link{
+    text-decoration: none;
+}
+
+.navdiv ul li a {
+    color: #111111;
+    font-size: 18px;
     font-weight: bold;
 }
 
@@ -44,268 +61,33 @@ body {
     padding: 8px 16px;
     font-size: 0.9rem;
     cursor: pointer;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
+    background-color: lightgray;
+    border-radius: 10px;
     transition: background-color 0.3s ease;
+    padding: 10px;
+    width: 90px;
+    margin-left: 10px;
+    width: 180px;
+}
+.auth-btn a {
+    color: #111111;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 .auth-btn:hover {
-    background-color: #555;
+    background-color: #818080;
 }
 
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Markazi Text', serif;
-    letter-spacing: 2px;;
-}
-
-h1 {
-    font-size: 4rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0;
-}
-
-h2 {
-    font-size: 2.5rem;
-    color: #333333;
-    margin:1rem 0;
-}
-
-p, ul{
-    font-size: 1.25rem;;
-}
-
-a {
-    color: #EE9972;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-header img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 100%;
-    height: auto;
-}
-
-img {
-    border-radius: 50%;
-  }
-
-nav {
-    background-color: #495E57;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-bottom: 0px;
-}
-
-nav ul {
-    list-style: none;
-    font-size: 1.5rem;
-    text-align: center;
-    padding-inline-start: 0rem;
-    margin-bottom: 0px;
-}
-
-nav ul li {
-    display: inline-block;
-    margin: 0.5rem;
-}
-
-nav ul a {
-    color: #EDEFEE;
-    text-decoration: none;
-}
-
-nav ul a:active {
-    text-decoration: underline;
-}
-
-nav ul a:hover {
-    text-decoration: underline;
-    text-decoration-thickness: 0.1rem;
-}
-
-section {
-    display: flex;
-    gap: 2rem 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    flex-direction: row;
-}
-
-article {
-    flex:1;
-}
-
-article img {
-    max-width: 100%;
-}
-
-article ul {
-    list-style: none;
-}
-
-main article {
-    border: 1px solid #EDEFEE;
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-
-figure {
-    margin: 0;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-  }
-
-input{
-    width: 80%;
-    display: block;
-    padding: .5rem 1rem;
-    line-height: 1.5rem;
-    box-sizing: border-box;
-}
-
-#button {
-    padding: .5rem 1rem;
-    border: 1px solid #495E57;
-    background-color:#495E57;;
-    border-radius: 5px;
-    width: 80%;
-    font-size: 1.25rem;
-    display: block;
-    color: #fff;
-    line-height: 25px;
-  }
-
-#hero {
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url('../img/restaurant_inside.jpg');
-    background-size: cover;
-    background-position: 75%;
-    color: white;
-    min-height: 200px;
-    text-align: center;;
-}
-
-#hero p {
-    font-size: 2rem;
-    margin:0;
-    text-shadow: 2px 2px 4px #333333;
-}
-
-.cta { 
-    display: inline-block; 
-    color: rgba(255, 255, 255, 0.9);
-    width: 200px; 
-    font-weight: bold; 
-    font-size: 1.5rem;
-    padding: 8px; 
-    border: 3px solid #fff; 
-    text-align: center; 
-    outline: none; 
-    text-decoration: none; 
-    margin: 1rem;
-} 
-
-.cta:hover {
-    color:#fff;
-    background:#495E57;
-    border: 3px solid #495E57; 
-  }
-
-  .heading-shadow {
-    text-shadow: 1px 1px 4px #333333;
-  }
-
-/* Footer */
-.footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #495E57;
-    border-top: 2px solid #333;
-}
-
-.footer-logo {
-    display: flex;
-    align-items: center;
-}
-
-.footer-logo img {
-    height: 50px;
-    margin-right: 10px;
-}
-
-.footer-logo span {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.footer-contact {
-    text-align: right;
-}
-
-.footer-contact p {
-    margin: 0;
-    font-size: 0.9rem;
-}
-
-.footer-contact a {
-    text-decoration: none;
-    color: #333;
+.contact-info{
+    color: #111111;
+    font-size: 18px;
     font-weight: bold;
 }
-
-.row {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    padding-bottom: 1rem;
-  }
-
-  .column {
-    flex-basis: 50%;
-    margin-bottom: 1rem;
-    padding-bottom: 1rem;
-  }
-
-  .column figure {
-    padding: 0px 12px;
-
-  }
-
-
-  .videowrap {
-	position: relative;
-	padding-bottom: 56.25%; /* 16:9 */
-	padding-top: 1rem;
-	height: 0;
+.contact-us{
+    justify-self: right;
+    padding-right: 100px;
 }
-.videowrap iframe {
-	position: absolute;
-    margin-top: 2rem;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-}
-
-.menu-price{
-    display: block;
-    font-size: 1rem;
-}
-
 @media (max-width: 800px) {
     section {
         flex-direction: column;   
