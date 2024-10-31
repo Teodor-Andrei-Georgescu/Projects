@@ -1,4 +1,6 @@
-/* This bit until the next comment is used for sytling the header and the footer*/
+/*
+This bit until the next comment is used for sytling the header and the footer
+*/
 .navbar-header {
     background-color: #9fbb9a;
     font-family: calibri;
@@ -92,7 +94,9 @@
 .auth-btn:hover {
     background-color: #818080;
 }
-/*This section is specifically for footer*/
+/*
+This section is specifically for footer
+*/
 .navbar-footer {
     background-color: #9fbb9a;
     font-family: calibri;
@@ -126,26 +130,76 @@
 
 .contact-info a:hover {
     text-decoration: underline;
-}
-/*This section is for styling the home/landing page*/
-.landing {
-    text-align: center;
-    border: 1px solid lightgray;
-}
-.landing div{
-    border: 1px solid lightgray;}
-
-.service-preview {
-    text-align: center;
-    border: 1px solid lightgray;
+    color: #5a5959
 }
 
-.about, .disclaimer {
+/*
+This is used to style the how we do it page
+*/
+.how-we-do-it {
+    background-color: #f9f9f9;
     text-align: center;
-    border: 1px solid lightgray;
+    padding: 20px;
 }
 
-/*This is used to make webapge somewwhat responsive to different sizes*/
+.how-we-do-it h1, .how-we-do-it h2 {
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.section {
+    max-width: auto;
+    margin: 30px auto;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    background-color: white;
+    text-align: left;
+}
+
+.section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section p {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.section img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 20px auto;
+}
+
+.section a {
+    color: #3352aa;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.section a:hover {
+    text-decoration: underline;
+}
+/*
+This section is for styling the home/landing page we do use same idea as 
+how-we-do it page.
+*/
+.home {
+    background-color: #f9f9f9;
+    text-align: center;
+    padding: 20px;
+}
+
+.home h1, .home h2 {
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+/*
+This is used to make webapge somewwhat responsive to different sizes
+*/
 @media (max-width: 80px) {
     section {
         flex-direction: column;   
