@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="landing">
+    <h1>Welcome to Data Shield MD</h1>
+    <div>
+        <h2>Purpose</h2>
+        <p>
+            Within the Medical industry, data privacy and security are of utmost importance since it involves sensitive information. However, the analysis of this data is critical to provide insights that can be transformed into actionable measures.
+        </p>
+        <p>
+            Therefore, before analysis can be performed, these datasets must be secured. This can be done by applying several different algorithms to the data that will ensure privacy. The algorithms make it difficult for anyone to deduce what information is linked to whom, thus upholding patient privacy.
+        </p>
+        <p>
+            Data Shield MD allows registered users to upload their datasets and apply different algorithms to secure data privacy. After the provided dataset has been processed, users can see some basic analytics to compare the results of different algorithms. Finally, users can then choose to download the processed dataset and forward it to their analysts.
+        </p>
+        <p>
+            For more details about the process, please visit our "<strong>how we do it</strong>" page. Or, for access to our services, please log in or create an account.
+        </p>
+    </div>
+</section>
+
+<section class="service-preview">
+    <h2>Service Preview</h2>
+    <div class="preview-images">
+        <img src="{% static '' %}" alt="File Upload Page Preview">
+        <span>→</span>
+        <img src="{% static '' %}" alt="Algorithm Selection Page Preview">
+    </div>
+    <p>(Will be swipe-through with images of each page or something like that)</p>
+</section>
+
+<section class="about">
+    <h2>About Us</h2>
+    <p>
+        Data Shield MD is a web application designed by a Computer Science and Health Information Science team from the University of Victoria. This application has been created as a type of Capstone project, and as/if the application gains traction, it will be further updated and enhanced with more features.
+    </p>
+</section>
+
+<section class="disclaimer">
+    <h2>Disclaimer</h2>
+    <p>
+        We apologize for any copyright or trademark breaches, as they are unintentional. Please check the contact details in the website footer and let us know if any such issue has occurred so they can be resolved.
+    </p>
+</section>
+{% endblock %}

@@ -1,25 +1,56 @@
-.navbar {
+/* This bit until the next comment is used for sytling the header and the footer*/
+.navbar-header {
     background-color: #9fbb9a;
-    font-family: calibri; 
-    padding-right: 15px;
-    padding-left: 15px; 
+    font-family: calibri;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
     border: 1px solid lightgray;
 }
 
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo-section .logo img {
+    width: 75px;
+    height: 50px;
+    border-radius: 65%;
+    margin-left: 10px;
+}
+.logo-section span{
+    font-size: 20px;
+    font-weight: 600;
+    color: #111111;
+}
 .navdiv {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.center-section {
+.user-info {
     display: flex;
-    gap: 20px; 
-    list-style: none;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 5px; 
 }
 
-.center-section li {
-    display: inline-block;
+.username {
+    font-size: 16px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 4px;
+}
+
+.center-section ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .center-section li a {
@@ -34,17 +65,11 @@
     color: #5a5959;
     text-decoration: underline;
 }
-.logo img {
-    width: 75px; 
-    height: 50px;
-    border-radius: 65%;
-    margin-left: 20px;
 
-}
-.navdiv span {
-    font-size: 20px;
-    font-weight: 600;
-    color: #111111;
+.auth-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .auth-btn {
@@ -52,45 +77,76 @@
     cursor: pointer;
     background-color: lightgray;
     border-radius: 10px;
-    transition: background-color 0.3s ease;
     padding: 10px;
-    margin-left: 10px;
-    width: 130px;
+    width: 90px;
+    transition: background-color 0.3s ease;
 }
+
 .auth-btn a {
     color: #111111;
     font-weight: bold;
     font-size: 15px;
+    text-decoration: none;
 }
 
 .auth-btn:hover {
     background-color: #818080;
 }
+/*This section is specifically for footer*/
+.navbar-footer {
+    background-color: #9fbb9a;
+    font-family: calibri;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid lightgray;
+}
 
-.contact-info{
-    color: #111111;
+.contact-info {
+    text-align: center; 
+}
+
+.contact-us {
+    font-weight: bold;
+    margin-bottom: 5px; 
+}
+
+.contact-info p {
+    margin: 0;
     font-size: 18px;
     font-weight: bold;
-}
-.contact-us{
-    justify-self: right;
-    padding-right: 100px;
+    text-decoration: none;
 }
 
-.user-info {
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center username and button */
-    gap: 5px; /* Small space between username and logout button */
-}
-
-.username {
-    font-size: 16px;
+.contact-info a {
+    color: #3352aa;
     font-weight: bold;
-    color: #111111;
-    margin-bottom: 4px;
+    text-decoration: none;
 }
-@media (max-width: 800px) {
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+/*This section is for styling the home/landing page*/
+.landing {
+    text-align: center;
+    border: 1px solid lightgray;
+}
+.landing div{
+    border: 1px solid lightgray;}
+
+.service-preview {
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+.about, .disclaimer {
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+/*This is used to make webapge somewwhat responsive to different sizes*/
+@media (max-width: 80px) {
     section {
         flex-direction: column;   
     }
