@@ -9,9 +9,31 @@
 .navdiv {
     display: flex;
     justify-content: space-between;
-    border: 2px solid rgb(97, 49, 141);
+    align-items: center;
 }
 
+.center-section {
+    display: flex;
+    gap: 20px; 
+    list-style: none;
+}
+
+.center-section li {
+    display: inline-block;
+}
+
+.center-section li a {
+    color: #111111;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.center-section li a:hover {
+    color: #5a5959;
+    text-decoration: underline;
+}
 .logo img {
     width: 75px; 
     height: 50px;
@@ -25,49 +47,15 @@
     color: #111111;
 }
 
-.navdiv ul li {
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    list-style: none;
-    margin-right: 21em;
-    display: inline-block;
-}
-
-.navdiv ul li:hover{
-    text-decoration: underline;
-    color: #5a5959;
-}
-.navdiv ul li a:hover{
-    text-decoration: underline;
-    color: #5a5959;
-}
-.navdiv ul li a:active{
-    text-decoration: underline;
-}
-.navdiv ul li a:visited{
-    text-decoration: none;
-}
-.navdiv ul li a:link{
-    text-decoration: none;
-}
-
-.navdiv ul li a {
-    color: #111111;
-    font-size: 18px;
-    font-weight: bold;
-}
-
 .auth-btn {
-    padding: 8px 16px;
     font-size: 0.9rem;
     cursor: pointer;
     background-color: lightgray;
     border-radius: 10px;
     transition: background-color 0.3s ease;
     padding: 10px;
-    width: 90px;
     margin-left: 10px;
-    width: 180px;
+    width: 130px;
 }
 .auth-btn a {
     color: #111111;
@@ -87,6 +75,20 @@
 .contact-us{
     justify-self: right;
     padding-right: 100px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center username and button */
+    gap: 5px; /* Small space between username and logout button */
+}
+
+.username {
+    font-size: 16px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 4px;
 }
 @media (max-width: 800px) {
     section {
