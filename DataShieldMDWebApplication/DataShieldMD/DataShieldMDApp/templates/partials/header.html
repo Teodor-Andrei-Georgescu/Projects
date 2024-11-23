@@ -32,7 +32,7 @@
             </div>
         {% else %}
             <button class="auth-btn"><a href="{% url 'login' %}">Login</a></button>
-            <button class="auth-btn"><a href="#">Sign up</a></button>
+            <button class="auth-btn"><a href="{% url 'register' %}">Register</a></button>
         {% endif %}
     </div>
 </nav>

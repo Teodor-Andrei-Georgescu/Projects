@@ -1,0 +1,17 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+<body>
+    <div class="register-container">
+        <h2>Register</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-fields">
+                {{ form.as_p }}
+            </div>
+            <button type="submit" class="register-button">Register</button>
+        </form>
+        <a href="{% url 'login' %}" class="login-link">Already have an account? Login here.</a>
+    </div>
+</body>
+{% endblock %}
