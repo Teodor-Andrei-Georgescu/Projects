@@ -137,7 +137,6 @@ This section is specifically for footer
 This is used to style the how we do it page
 */
 .how-we-do-it {
-    background-color: #f9f9f9;
     text-align: center;
     padding: 20px;
 }
@@ -150,10 +149,11 @@ This is used to style the how we do it page
 .section {
     max-width: auto;
     margin: 30px auto;
-    border: 1px solid lightgray;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: white;
+    background-color: #f9f9f9;
     text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .section h2 {
@@ -187,7 +187,6 @@ This section is for styling the home/landing page we do use same idea as
 how-we-do it page.
 */
 .home {
-    background-color: #f9f9f9;
     text-align: center;
     padding: 20px;
 }
