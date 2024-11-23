@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages
 from .forms import *
+from django.contrib.messages import get_messages
 
 # Create your views here.
 def home(request):
@@ -16,7 +17,7 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Registration successful. Please log in.')
+            messages.success(request, 'Registration successful! You can now log in.')
             return redirect('login')
         else:
             messages.error(request, 'Registration failed. Please check the form.')

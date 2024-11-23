@@ -21,6 +21,16 @@
   <body>
     {% include "partials/header.html" %}
     
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert {{ message.tags }}">
+          <span>{{ message }}</span>
+          <button class="close-button" onclick="this.parentElement.style.display='none';">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
     <main>
        <!-- Begin block content --> 

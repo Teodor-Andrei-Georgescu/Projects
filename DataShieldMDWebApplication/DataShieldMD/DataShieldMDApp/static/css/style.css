@@ -198,84 +198,21 @@ how-we-do it page.
 }
 
 /*
-This is for sytling the login page.
+This section is for styling the login and register pages.
 */
-.login-container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
-}
-
-.login-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-fields p {
-    margin: 10px 0;
-}
-
-.form-fields label {
-    font-weight: bold;
-    color: #333;
-}
-
-.form-fields input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.login-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #9fbb9a;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-}
-
-.login-button:hover {
-    background-color: #ccc;
-}
-
-.register-link {
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    color: #000000;
-    text-decoration: none;
-}
-
-.register-link:hover {
-    text-decoration: underline;
-}
-
-/*
-Styling for the register page
-*/
+.login-container,
 .register-container {
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ccc;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
 }
 
+.login-container h2,
 .register-container h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -285,36 +222,66 @@ Styling for the register page
     margin: 10px 0;
 }
 
-.form-fields label {
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
     font-weight: bold;
     color: #333;
 }
 
-.form-fields input {
+.form-group input {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 10px;
     box-sizing: border-box;
 }
 
+.form-group input.error {
+    border-color: #f5c6cb; /* Red border for fields with errors */
+    background-color: #f8d7da; /* Light red background */
+}
+
+.field-error {
+    color: #721c24;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.help-text {
+    color: #000000;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+.login-button,
 .register-button {
     width: 100%;
     padding: 10px;
     background-color: #9fbb9a;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
     margin-top: 10px;
     transition: background-color 0.3s ease;
 }
 
+.login-button:hover,
 .register-button:hover {
     background-color: #ccc;
 }
 
+.register-link,
 .login-link {
     display: block;
     text-align: center;
@@ -323,8 +290,81 @@ Styling for the register page
     text-decoration: none;
 }
 
+.register-link:hover,
 .login-link:hover {
     text-decoration: underline;
+}
+
+.form-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/*
+Styling for messages at the top of the screen
+*/
+.messages {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    z-index: 1000;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.alert {
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font-family: Arial, sans-serif;
+}
+
+.alert.success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.alert.warning {
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+}
+
+.alert.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-color: #bee5eb;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+    color: #000;
+}
+
+.close-button:hover {
+    color: red;
 }
 /*
 This is used to make webapge somewwhat responsive to different sizes

@@ -4,18 +4,33 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
 class UserRegistrationForm(UserCreationForm):
-    first_name = forms.CharField(max_length=30, required=True, help_text="Enter your first name.")
-    last_name = forms.CharField(max_length=30, required=True, help_text="Enter your last name.")
-    email = forms.EmailField(max_length=254, required=True, help_text="Enter a valid email address.")
+    username = forms.CharField(
+        max_length=150,
+        required=True,
+        help_text="Enter a unique username. Required. 150 characters or fewer. Letters, digits, and @/./+/-/_ only. (Required)"
+    )
+    first_name = forms.CharField(
+        max_length=30, 
+        required=True, 
+        help_text="Enter your first name. (Required)")
+    
+    last_name = forms.CharField(
+        max_length=30, required=True, 
+        help_text="Enter your last name. (Required)"
+        )
+    email = forms.EmailField(
+        max_length=254, 
+        required=True, 
+        help_text="Enter a valid email address. (Required)"
+        )
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
     
-    '''
-    def check_email(self):
+    def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise ValidationError("This email address is already in use.")
         return email
-    '''
+    
