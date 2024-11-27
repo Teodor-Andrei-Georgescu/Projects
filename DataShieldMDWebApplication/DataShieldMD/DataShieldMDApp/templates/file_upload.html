@@ -2,6 +2,14 @@
 {% block content %}
 <div class="file-upload-container">
     <h2>{{ user.username }}'s File Upload Page</h2>
+    <p><b>Notes</b></p>
+    <ul>
+        <li>Only xlsx or csv files are supported.</li>
+        <li>Uploading a file with the same name with replace any current files with the same name on our end.</li>
+        <li>Since files get deleted after processing you can toggle your view between currently stored file or all files you have ever uploaded (This feature is so you can check if you have already processed a file in the past to not re-upload and reprocess it again).</li>
+        <li>You may search files by name or date.</li>
+        <li>Serach criteria will persist until you clear it yourself.</li>
+    </ul>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="file-upload">
@@ -14,8 +22,21 @@
 
     <h3>Your Uploaded Files</h3>
     <form method="get" class="search-form">
-        <input type="text" name="search" placeholder="Search files" value="{{ request.GET.search }}">
-        <button type="submit" class="btn">Search</button>
+        <!-- Search Row -->
+        <div class="search-row">
+            <input type="text" name="search" placeholder="Search files by name" value="{{ request.GET.search }}">
+            <input type="date" name="search_date" placeholder="Search by date" value="{{ request.GET.search_date }}">
+            <button type="submit" class="btn">Search</button>
+        </div>
+
+        <!-- Toggle Switch -->
+        <div class="toggle-switch">
+            <label class="switch">
+                <input type="checkbox" name="view_mode" value="current" {% if request.GET.view_mode == 'current' %}checked{% endif %} onchange="this.form.submit()">
+                <span class="slider"></span>
+            </label>
+            <span>View Current Files</span>
+        </div>
     </form>
 
     <table>

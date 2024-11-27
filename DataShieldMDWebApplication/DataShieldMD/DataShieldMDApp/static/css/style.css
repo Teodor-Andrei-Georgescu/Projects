@@ -507,7 +507,7 @@ Styling for File Upload Page
 }
 
 .pagination .step-links a {
-    color: #007bff;
+    color: #000000;
     text-decoration: none;
     padding: 5px 10px;
     border: 1px solid #ddd;
@@ -527,6 +527,83 @@ Styling for File Upload Page
     background-color: #e9ecef;
     color: #333;
 }
+/*
+Styling for search bar and switch
+*/
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between items */
+    margin-bottom: 20px; /* Space below the search form */
+}
+.search-row {
+    display: flex;
+    flex-direction: row; /* Stack items vertically */
+    gap: 10px; /* Space between items */
+    margin-bottom: 20px; /* Space below the search form */
+}
+
+.toggle-switch {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start; /* Align the switch to the left */
+    margin-top: 10px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #9fbb9a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+
 
 /*
 This is used to make webapge somewwhat responsive to different sizes
@@ -548,4 +625,5 @@ This is used to make webapge somewwhat responsive to different sizes
     #button{
         width: 100%;
     }
+
   }

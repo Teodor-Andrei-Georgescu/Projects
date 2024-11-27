@@ -10,8 +10,8 @@ import os
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-
 from django.core.paginator import Paginator
+from datetime import datetime
 
 
 '''
@@ -71,8 +71,6 @@ def user_logout(request):
     return redirect('home')
 
 
-from django.core.paginator import Paginator
-
 @login_required
 def upload_file(request):
     if request.method == 'POST':
@@ -101,21 +99,73 @@ def upload_file(request):
     else:
         form = FileUploadForm()
 
-    # Fetch the logged-in user's uploaded files, ordered by the most recent
-    uploaded_files = Dataset.objects.filter(user=request.user).order_by('-upload_date')
-
-    # Search functionality
+    # Handle search queries
     search_query = request.GET.get('search', '')
+    search_date = request.GET.get('search_date', '')
+    view_mode = request.GET.get('view_mode', '')
+
+    if view_mode == 'current':
+        # Fetch current files stored in media/<username>/uploads
+        current_files = []
+        user_dir = os.path.join(settings.MEDIA_ROOT, request.user.username, 'uploads')
+        if os.path.exists(user_dir):
+            for file_name in os.listdir(user_dir):
+                full_path = os.path.join(user_dir, file_name)
+                if os.path.isfile(full_path):
+                    file_data = {
+                        'filename': file_name,
+                        'upload_date': datetime.fromtimestamp(os.path.getmtime(full_path))  # Get file modification time
+                    }
+                    # Apply search filters
+                    if search_query and search_query.lower() not in file_name.lower():
+                        continue
+                    if search_date:
+                        try:
+                            search_date_obj = datetime.strptime(search_date, '%Y-%m-%d').date()
+                            file_date = datetime.fromtimestamp(os.path.getmtime(full_path)).date()
+                            if file_date != search_date_obj:
+                                continue
+                        except ValueError:
+                            pass  # Ignore invalid date inputs
+                    current_files.append(file_data)
+
+        # Paginate current files
+        paginator = Paginator(current_files, 10)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        return render(request, 'file_upload.html', {
+            'form': form,
+            'page_obj': page_obj,
+            'search_query': search_query,
+            'search_date': search_date,
+            'view_mode': view_mode,
+        })
+
+    # Fetch uploaded files from the database
+    uploaded_files = Dataset.objects.filter(user=request.user)
+
+    # Apply search filters
     if search_query:
         uploaded_files = uploaded_files.filter(filename__icontains=search_query)
 
-    # Paginate the files, 10 files per page
-    paginator = Paginator(uploaded_files, 10)  # Show 10 files per page
-    page_number = request.GET.get('page')  # Get the current page number from the query parameters
-    page_obj = paginator.get_page(page_number)  # Get the files for the current page
+    if search_date:
+        try:
+            # Parse the date and filter files uploaded on that date
+            search_date_obj = datetime.strptime(search_date, '%Y-%m-%d')
+            uploaded_files = uploaded_files.filter(upload_date__date=search_date_obj.date())
+        except ValueError:
+            pass  # Ignore invalid date inputs
+
+    # Paginate uploaded files
+    paginator = Paginator(uploaded_files, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     return render(request, 'file_upload.html', {
         'form': form,
-        'page_obj': page_obj,  # Pass the paginated files
-        'search_query': search_query,  # Pass the current search query for reuse in the template
+        'page_obj': page_obj,
+        'search_query': search_query,
+        'search_date': search_date,
+        'view_mode': view_mode,
     })
