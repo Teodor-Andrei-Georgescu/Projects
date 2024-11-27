@@ -74,32 +74,45 @@ def user_logout(request):
 @login_required
 def upload_file(request):
     if request.method == 'POST':
-        form = FileUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            file = form.cleaned_data['file']
+        # Handle file upload
+        if 'file' in request.FILES:
+            form = FileUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                file = form.cleaned_data['file']
 
-            # Define the user's upload directory
+                # Define the user's upload directory
+                user_dir = os.path.join(settings.MEDIA_ROOT, request.user.username, 'uploads')
+                os.makedirs(user_dir, exist_ok=True)
+
+                # Save the file to the user's upload directory
+                file_path = os.path.join(user_dir, file.name)
+                with open(file_path, 'wb+') as destination:
+                    for chunk in file.chunks():
+                        destination.write(chunk)
+
+                # Save file information to the Dataset model
+                Dataset.objects.create(
+                    user=request.user,
+                    filename=file.name,
+                    file_path=file_path
+                )
+                return redirect('upload_file')  # Refresh the page
+
+        # Handle file deletion
+        if 'delete_file' in request.POST:
+            file_to_delete = request.POST.get('delete_file')
             user_dir = os.path.join(settings.MEDIA_ROOT, request.user.username, 'uploads')
-            os.makedirs(user_dir, exist_ok=True)
+            file_path = os.path.join(user_dir, file_to_delete)
 
-            # Save the file to the user's upload directory
-            file_path = os.path.join(user_dir, file.name)
-            with open(file_path, 'wb+') as destination:
-                for chunk in file.chunks():
-                    destination.write(chunk)
+            if os.path.exists(file_path):
+                os.remove(file_path)  # Delete the file from the directory
 
-            # Save file information to the Dataset model
-            Dataset.objects.create(
-                user=request.user,
-                filename=file.name,
-                file_path=file_path
-            )
             return redirect('upload_file')  # Refresh the page
 
     else:
         form = FileUploadForm()
 
-    # Handle search queries
+    # Handle search queries and view mode
     search_query = request.GET.get('search', '')
     search_date = request.GET.get('search_date', '')
     view_mode = request.GET.get('view_mode', '')
@@ -129,6 +142,9 @@ def upload_file(request):
                             pass  # Ignore invalid date inputs
                     current_files.append(file_data)
 
+        # Sort current files by modification date (most recent first)
+        current_files = sorted(current_files, key=lambda x: x['upload_date'], reverse=True)
+
         # Paginate current files
         paginator = Paginator(current_files, 10)
         page_number = request.GET.get('page')
@@ -142,8 +158,8 @@ def upload_file(request):
             'view_mode': view_mode,
         })
 
-    # Fetch uploaded files from the database
-    uploaded_files = Dataset.objects.filter(user=request.user)
+    # Fetch uploaded files from the database and sort by the most recent upload date
+    uploaded_files = Dataset.objects.filter(user=request.user).order_by('-upload_date')
 
     # Apply search filters
     if search_query:
