@@ -3,6 +3,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
+'''
+Custom user registration from based on the default django form.
+
+It has some different help text and ensure user username and email.
+'''
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
         max_length=150,
@@ -34,3 +39,14 @@ class UserRegistrationForm(UserCreationForm):
             raise ValidationError("This email address is already in use.")
         return email
     
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("This username  is already in use.")
+        return username
+
+'''
+Simple form to file uploading.
+'''
+class FileUploadForm(forms.Form):
+    file = forms.FileField(label="Select a file")

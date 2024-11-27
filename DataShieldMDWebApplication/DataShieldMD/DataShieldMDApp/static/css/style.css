@@ -365,6 +365,169 @@ Styling for messages at the top of the screen
 .close-button:hover {
     color: red;
 }
+/* 
+Styling for File Upload Page 
+*/
+.file-upload-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.file-upload-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.file-upload-container form {
+    margin-bottom: 30px;
+}
+
+.file-upload-container form input,
+.file-upload-container form button {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.file-upload-container form input[type="text"] {
+    width: calc(100% - 22px); /* Full width, accounting for padding */
+}
+
+.file-upload-container .btn {
+    background-color: #9fbb9a;
+    color: #000000;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease;
+}
+
+.file-upload-container .btn:hover {
+    background-color: #ccc;
+}
+
+.file-upload-container .search-form {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.file-upload-container .search-form input {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.file-upload-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.file-upload-container table th,
+.file-upload-container table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.file-upload-container table th {
+    background-color: #f1f1f1;
+}
+
+.file-upload-container table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.file-upload-container table .empty {
+    text-align: center;
+    color: #777;
+}
+
+.file-upload-container table .file-name {
+    font-weight: bold;
+    font-size: 16px;
+    color: #000000;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.file-upload-container table .file-name:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+/* Styling for File Input */
+.file-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.file-label {
+    padding: 10px 20px;
+    background-color: #9fbb9a;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.file-label:hover {
+    background-color: #ccc;
+}
+/* Styling for Selected File Name */
+#file-name {
+    font-weight: bold;
+    font-size: 16px; /* Larger font size for better visibility */
+    color: #000000; /* White text for contrast */
+    background-color: #cbddcc; /* Green background to highlight */
+    padding: 5px 10px; /* Add some spacing around the text */
+    border-radius: 5px; /* Rounded corners for a polished look */
+    margin-left: 10px; /* Space between the label and file name */
+    display: inline-block; /* Ensure proper alignment */
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.pagination .step-links a {
+    color: #007bff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.pagination .step-links a:hover {
+    background-color: #f1f1f1;
+}
+
+.pagination .step-links .current {
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    color: #333;
+}
+
 /*
 This is used to make webapge somewwhat responsive to different sizes
 */
