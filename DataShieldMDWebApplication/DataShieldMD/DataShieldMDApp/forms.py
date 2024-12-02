@@ -50,3 +50,90 @@ Simple form to file uploading.
 '''
 class FileUploadForm(forms.Form):
     file = forms.FileField(label="Select a file")
+    
+'''
+Algorithm selection form
+'''
+class AlgorithmSelectionForm(forms.Form):
+    file = forms.ChoiceField(label="Select File")
+    sensitive_fields = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'e.g., Age, Salary'}),
+        label="Sensitive Fields (comma-separated):"
+    )
+    identifying_fields = forms.CharField(
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'e.g., Name, Address'}),
+        label="Identifying Fields (comma-separated):"
+    )
+
+    # Checkboxes and parameter inputs
+    k_anonymity = forms.BooleanField(required=False, label="K-Anonymity")
+    k_value = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'placeholder': 'Enter K value (min 2)',
+            'class': 'algorithm-param',
+            'data-algo': 'k_anonymity'
+        })
+    )
+    l_diversity = forms.BooleanField(required=False, label="L-Diversity")
+    l_value = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'placeholder': 'Enter L value (min 2)',
+            'class': 'algorithm-param',
+            'data-algo': 'l_diversity'
+        })
+    )
+    t_closeness = forms.BooleanField(required=False, label="T-Closeness")
+    t_value = forms.FloatField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'placeholder': 'Enter T value (0 - 1)',
+            'class': 'algorithm-param',
+            'data-algo': 't_closeness'
+        })
+    )
+
+    def __init__(self, *args, **kwargs):
+        file_choices = kwargs.pop('file_choices', [])
+        super().__init__(*args, **kwargs)
+        self.fields['file'].choices = file_choices
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        # Ensure at least one algorithm is selected
+        if not (
+            cleaned_data.get('k_anonymity')
+            or cleaned_data.get('l_diversity')
+            or cleaned_data.get('t_closeness')
+        ):
+            raise forms.ValidationError("Please select at least one anonymization algorithm.")
+
+        # Validate K-Anonymity
+        if cleaned_data.get('k_anonymity'):
+            k_value = cleaned_data.get('k_value')
+            if k_value is None:
+                self.add_error('k_value', "K value is required if K-Anonymity is selected.")
+            elif k_value < 2:
+                self.add_error('k_value', "K value must be at least 2.")
+
+        # Validate L-Diversity
+        if cleaned_data.get('l_diversity'):
+            l_value = cleaned_data.get('l_value')
+            if l_value is None:
+                self.add_error('l_value', "L value is required if L-Diversity is selected.")
+            elif l_value < 2:
+                self.add_error('l_value', "L value must be at least 2.")
+
+        # Validate T-Closeness
+        if cleaned_data.get('t_closeness'):
+            t_value = cleaned_data.get('t_value')
+            if t_value is None:
+                self.add_error('t_value', "T value is required if T-Closeness is selected.")
+            elif not (0 <= t_value <= 1):
+                self.add_error('t_value', "T value must be between 0 and 1.")
+
+        return cleaned_data

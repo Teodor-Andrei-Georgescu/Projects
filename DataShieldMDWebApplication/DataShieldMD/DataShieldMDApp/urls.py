@@ -11,6 +11,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('register/', views.register, name='register'),
     path('upload/', views.upload_file, name='upload_file'),
+    path('algorithm_selection_and_processing/', views.algorithm_selection, name='algorithm_selection'),
 ]
 
 if settings.DEBUG:

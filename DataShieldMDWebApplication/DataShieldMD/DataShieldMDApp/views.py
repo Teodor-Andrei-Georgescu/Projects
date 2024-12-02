@@ -185,3 +185,56 @@ def upload_file(request):
         'search_date': search_date,
         'view_mode': view_mode,
     })
+
+
+@login_required
+def algorithm_selection(request):
+    # Fetch the current user's uploaded files from the directory
+    user_dir = os.path.join(settings.MEDIA_ROOT, request.user.username, 'uploads')
+    file_choices = [(f, f) for f in os.listdir(user_dir) if os.path.isfile(os.path.join(user_dir, f))] if os.path.exists(user_dir) else []
+
+    if request.method == 'POST':
+        form = AlgorithmSelectionForm(request.POST, file_choices=file_choices)
+        if form.is_valid():
+            # Process the form data
+            selected_file = form.cleaned_data['file']
+            sensitive_fields = form.cleaned_data['sensitive_fields']
+            identifying_fields = form.cleaned_data['identifying_fields']
+
+            # Collect algorithm types and their parameters
+            algorithm_type = ""
+            k_value = form.cleaned_data.get('k_value')
+            l_value = form.cleaned_data.get('l_value')
+            t_value = form.cleaned_data.get('t_value')
+
+            if form.cleaned_data.get('k_anonymity'):
+                algorithm_type += "K"
+            if form.cleaned_data.get('l_diversity'):
+                algorithm_type += "L"
+            if form.cleaned_data.get('t_closeness'):
+                algorithm_type += "T"
+
+            # Validate dataset association
+            dataset = Dataset.objects.filter(user=request.user, filename=selected_file).first()
+            if not dataset:
+                messages.error(request, "Selected file is not associated with any dataset entry.")
+                return render(request, 'algorithm_selection_and_processing.html', {'form': form})
+
+            # Save parameters to the database
+            AlgorithmParameter.objects.create(
+                dataset=dataset,
+                algorithm_type=algorithm_type,
+                k_value=k_value,
+                l_value=l_value,
+                t_value=t_value
+            )
+
+            # Provide success feedback
+            messages.success(request, f"Algorithm parameters saved for {selected_file}!")
+            return redirect('algorithm_selection')  # Redirect to clear the form
+        else:
+            messages.error(request, 'There is some error with your form. Please double check it.')
+    else:
+        form = AlgorithmSelectionForm(file_choices=file_choices)
+
+    return render(request, 'algorithm_selection.html', {'form': form})

@@ -13,14 +13,18 @@ class Dataset(models.Model):
 
 class AlgorithmParameter(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)  # Links to the Datasets table
-    algorithm_type = models.CharField(max_length=3)  #'k' for k-anonymity, 'l' for l-diversity, or 't' for t-closeness
+    algorithm_type = models.CharField(max_length=3)  # Example: 'K', 'KL', or 'KLT'
     k_value = models.IntegerField(null=True, blank=True)  # Optional for k-anonymity
     l_value = models.IntegerField(null=True, blank=True)  # Optional for l-diversity
-    t_value = models.IntegerField(null=True, blank=True)  # Optional for t-closeness
+    t_value = models.FloatField(null=True, blank=True)  # Optional for t-closeness
+
+    def save(self, *args, **kwargs):
+        # Ensure `algorithm_type` is always ordered as "K", "L", "T"
+        self.algorithm_type = ''.join(sorted(self.algorithm_type, key=lambda x: 'KLT'.index(x)))
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Parameters for Dataset {self.dataset.filename} - {self.algorithm_type}"
-
 
 class ProcessedDataset(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)  # Links to the Datasets table

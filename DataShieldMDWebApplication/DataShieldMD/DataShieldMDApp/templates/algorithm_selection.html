@@ -1,0 +1,105 @@
+{% extends 'partials/base.html' %}
+{% block content %}
+<div class="file-upload-container">
+    <h2>{{ user.username }}'s Algorithm Selection and Processing</h2>
+    <p><b>Instructions:</b></p>
+    <ul>
+        <li>Select a file from your uploaded files directory.</li>
+        <li>Specify the sensitive and identifying fields (one at a time or comma-separated).</li>
+        <li>Choose at least one anonymization algorithm and provide its parameter(s).</li>
+    </ul>
+
+    {% if form.errors %}
+    <div class="alert error">
+        <ul>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form class="algorithm_selection_form" method="post">
+        {% csrf_token %}
+        <!-- File Selection -->
+        <div>
+            <label for="file">Select File:</label>
+            {{ form.file }}
+            {% if form.file.errors %}
+            <div class="field-error">{{ form.file.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Sensitive Fields -->
+        <div>
+            <label for="sensitive_fields">{{ form.sensitive_fields.label }}</label>
+            {{ form.sensitive_fields }}
+            {% if form.sensitive_fields.errors %}
+            <div class="field-error">{{ form.sensitive_fields.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Identifying Fields -->
+        <div>
+            <label for="identifying_fields">{{ form.identifying_fields.label }}</label>
+            {{ form.identifying_fields }}
+            {% if form.identifying_fields.errors %}
+            <div class="field-error">{{ form.identifying_fields.errors|join:", " }}</div>
+            {% endif %}
+        </div>
+
+        <!-- Algorithm Selection -->
+        <fieldset>
+            <legend>Select Anonymization Algorithms:</legend>
+            <div>
+                {{ form.k_anonymity }}
+                <label for="k_anonymity">{{ form.k_anonymity.label }}</label>
+                {{ form.k_value }}
+                {% if form.k_value.errors %}
+                <div class="field-error">{{ form.k_value.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.l_diversity }}
+                <label for="l_diversity">{{ form.l_diversity.label }}</label>
+                {{ form.l_value }}
+                {% if form.l_value.errors %}
+                <div class="field-error">{{ form.l_value.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+            <div>
+                {{ form.t_closeness }}
+                <label for="t_closeness">{{ form.t_closeness.label }}</label>
+                {{ form.t_value }}
+                {% if form.t_value.errors %}
+                <div class="field-error">{{ form.t_value.errors|join:", " }}</div>
+                {% endif %}
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn">Process File</button>
+    </form>
+</div>
+
+<script>
+    // Dynamically toggle input fields
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleInputs = document.querySelectorAll('.algorithm-param');
+        toggleInputs.forEach(input => {
+            const checkboxId = `id_${input.dataset.algo}`;
+            const checkbox = document.getElementById(checkboxId);
+
+            if (checkbox) {
+                input.style.display = checkbox.checked ? 'block' : 'none';
+                checkbox.addEventListener('change', () => {
+                    input.style.display = checkbox.checked ? 'block' : 'none';
+                    if (!checkbox.checked) input.value = '';  // Clear value when unchecked
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}
+
