@@ -5,7 +5,6 @@ from django.contrib import messages
 from .forms import *
 from .models import *
 from django.contrib.messages import get_messages
-
 import os
 from django.conf import settings
 from django.shortcuts import render, redirect
@@ -14,7 +13,7 @@ from django.core.paginator import Paginator
 from datetime import datetime
 import pandas as pd
 import csv
-
+from .arx_utils import *
 
 '''
 Home page, only displays info.
@@ -217,6 +216,10 @@ def upload_file(request):
 def algorithm_selection(request):
     # Fetch the current user's uploaded files from the directory
     user_dir = os.path.join(settings.MEDIA_ROOT, request.user.username, 'uploads')
+    
+    processed_dir = os.path.join(settings.MEDIA_ROOT, request.user.username, 'processed')
+    os.makedirs(processed_dir, exist_ok=True)
+    
     file_choices = [(f, f) for f in os.listdir(user_dir) if os.path.isfile(os.path.join(user_dir, f))] if os.path.exists(user_dir) else []
 
     if request.method == 'POST':
@@ -281,9 +284,52 @@ def algorithm_selection(request):
                 l_value=l_value,
                 t_value=t_value
             )
-
+            
             # Provide success feedback
-            messages.success(request, f"Algorithm parameters saved for {selected_file}!")
+            messages.success(request, f"Algorithm parameters saved for {selected_file}! Processing will now begin.")
+            
+            # Load data into ARX
+            try:
+                # Apply K-Anonymity
+                if form.cleaned_data.get('k_anonymity'):
+                    data = ARXWrapper.load_data(selected_file_path, identifying_fields, sensitive_fields, True)
+                    try:
+                        output_data = ARXWrapper.apply_k_anonymity(data, form.cleaned_data['k_value'])
+                        output_path = os.path.join(processed_dir, f'k_{selected_file}')
+                        ARXWrapper.save_data(output_data, output_path)
+                        messages.success(request, f"K-Anonymity applied successfully. Output saved to {output_path}")
+                    except Exception as e:
+                        messages.error(request, f"Error applying K-Anonymity: {e}")
+
+                # Apply L-Diversity
+                if form.cleaned_data.get('l_diversity'):
+                    data = ARXWrapper.load_data(selected_file_path, identifying_fields, sensitive_fields, False)
+                    try:
+                        output_data = ARXWrapper.apply_l_diversity(data, form.cleaned_data['l_value'], sensitive_fields)
+                        output_path = os.path.join(processed_dir, f'l_{selected_file}')
+                        ARXWrapper.save_data(output_data, output_path)
+                        messages.success(request, f"L-Diversity applied successfully. Output saved to {output_path}")
+                    except Exception as e:
+                        messages.error(request, f"Error applying L-Diversity: {e}")
+
+                # Apply T-Closeness
+                if form.cleaned_data.get('t_closeness'):
+                    data = ARXWrapper.load_data(selected_file_path, identifying_fields, sensitive_fields, False)
+                    try:
+                        output_data = ARXWrapper.apply_t_closeness(data, form.cleaned_data['t_value'], sensitive_fields)
+                        output_path = os.path.join(processed_dir, f't_{selected_file}')
+                        ARXWrapper.save_data(output_data, output_path)
+                        messages.success(request, f"T-Closeness applied successfully. Output saved to {output_path}")
+                    except Exception as e:
+                        messages.error(request, f"Error applying T-Closeness: {e}")
+
+            except ValueError as e:
+                messages.error(request, str(e))
+            except Exception as e:
+                print(str(e))
+                messages.error(request, f"Unexpected error: {str(e)}")
+            
+            messages.success(request, f"All algorithms have been applied. Please your Processed Datasets page.")   
             return redirect('algorithm_selection')  # Redirect to clear the form
         else:
             messages.error(request, 'There is some error with your form. Please double check it.')
