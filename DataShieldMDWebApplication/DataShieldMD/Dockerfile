@@ -1,24 +1,35 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM python:3.9.7-alpine AS builder
+FROM python:3.9-alpine AS builder
+
+# Expose the application port
 EXPOSE 8000
-WORKDIR /DataShieldMD 
+
+# Set the working directory
+WORKDIR /DataShieldMD
+
+# Install Python dependencies and OpenJDK
+RUN apk update && apk add --no-cache \
+    openjdk17 \
+    openjdk17-jdk \
+    build-base \
+    bash \
+    git
+
+# Set JAVA_HOME and update PATH
+ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk"
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+# Verify Java installation
+RUN java -version
+
+# Copy the requirements file and install Python dependencies
 COPY requirements.txt /DataShieldMD
-RUN pip3 install -r requirements.txt --no-cache-dir
-COPY . /DataShieldMD 
-ENTRYPOINT ["python3"] 
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-FROM builder as dev-envs
-RUN <<EOF
-apk update
-apk add git
-EOF
+# Copy the application source code
+COPY . /DataShieldMD
 
-RUN <<EOF
-addgroup -S docker
-adduser -S --shell /bin/bash --ingroup docker vscode
-EOF
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
+# Entry point for the application
+ENTRYPOINT ["python3"]
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
