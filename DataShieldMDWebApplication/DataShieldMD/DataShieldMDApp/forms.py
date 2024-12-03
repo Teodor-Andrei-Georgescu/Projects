@@ -51,6 +51,16 @@ Simple form to file uploading.
 class FileUploadForm(forms.Form):
     file = forms.FileField(label="Select a file")
     
+    def clean_file(self):
+        uploaded_file = self.cleaned_data.get('file')
+        if uploaded_file:
+            # Get the file extension
+            extension = uploaded_file.name.split('.')[-1].lower()
+            allowed_extensions = ['xlsx', 'csv']
+            if extension not in allowed_extensions:
+                raise ValidationError("Only .xlsx and .csv file types are allowed.")
+        return uploaded_file
+    
 '''
 Algorithm selection form
 '''
@@ -62,7 +72,7 @@ class AlgorithmSelectionForm(forms.Form):
         label="Sensitive Fields (comma-separated):"
     )
     identifying_fields = forms.CharField(
-        required=True,
+        required=False,
         widget=forms.TextInput(attrs={'placeholder': 'e.g., Name, Address'}),
         label="Identifying Fields (comma-separated):"
     )

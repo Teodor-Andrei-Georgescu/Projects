@@ -126,6 +126,13 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'  # URL to access media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory to store media files
 
+import jnius_config
+
+ARX_JAR_PATH = os.path.join(BASE_DIR,'arx')
+LIBARX_JAR_PATH = os.path.join(BASE_DIR,'arx')
+
+jnius_config.set_classpath(ARX_JAR_PATH, LIBARX_JAR_PATH)
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

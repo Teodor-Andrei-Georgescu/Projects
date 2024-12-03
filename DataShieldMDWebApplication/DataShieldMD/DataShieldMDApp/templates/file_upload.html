@@ -11,6 +11,18 @@
         <li>You may search files by name or date.</li>
         <li>Search criteria will persist until you clear it yourself.</li>
     </ul>
+
+    <!-- Display file upload type error -->
+    {% if form.errors %}
+    <div class="alert error">
+        <ul>
+            {% for field, errors in form.errors.items %}
+                <li>{{ errors|join:", " }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="file-upload">

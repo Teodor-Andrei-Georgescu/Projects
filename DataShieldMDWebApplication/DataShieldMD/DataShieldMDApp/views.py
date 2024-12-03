@@ -12,6 +12,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from datetime import datetime
+import pandas as pd
+import csv
 
 
 '''
@@ -70,6 +72,30 @@ def user_logout(request):
     messages.success(request, 'Logged out successfully.')
     return redirect('home')
 
+'''
+Function is written to convert xlsx files to csv as we only process files as csv.
+'''
+def handle_uploaded_file(uploaded_file, user_dir):
+    # Save the uploaded file temporarily
+    temp_path = os.path.join(user_dir, uploaded_file.name)
+    with open(temp_path, 'wb+') as destination:
+        for chunk in uploaded_file.chunks():
+            destination.write(chunk)
+
+    # Check if the file is an XLSX file
+    if uploaded_file.name.endswith('.xlsx'):
+        # Convert XLSX to CSV
+        csv_filename = uploaded_file.name.replace('.xlsx', '.csv')
+        csv_path = os.path.join(user_dir, csv_filename)
+        df = pd.read_excel(temp_path)
+        df.to_csv(csv_path, index=False)
+
+        # Remove the original XLSX file
+        os.remove(temp_path)
+
+        return csv_filename  # Return the new CSV filename
+    else:
+        return uploaded_file.name
 
 @login_required
 def upload_file(request):
@@ -85,18 +111,18 @@ def upload_file(request):
                 os.makedirs(user_dir, exist_ok=True)
 
                 # Save the file to the user's upload directory
-                file_path = os.path.join(user_dir, file.name)
-                with open(file_path, 'wb+') as destination:
-                    for chunk in file.chunks():
-                        destination.write(chunk)
-
+                saved_filename = handle_uploaded_file(file, user_dir)
+                
                 # Save file information to the Dataset model
                 Dataset.objects.create(
                     user=request.user,
-                    filename=file.name,
-                    file_path=file_path
+                    filename=saved_filename,
+                    file_path=os.path.join(user_dir, saved_filename)
                 )
+                messages.success(request, f"{file} was successfully uploaded!")
                 return redirect('upload_file')  # Refresh the page
+            else:
+                messages.error(request, "Something went wrong uploading your file. Please try again.")
 
         # Handle file deletion
         if 'delete_file' in request.POST:
@@ -220,6 +246,33 @@ def algorithm_selection(request):
                 messages.error(request, "Selected file is not associated with any dataset entry.")
                 return render(request, 'algorithm_selection_and_processing.html', {'form': form})
 
+            # Load the CSV file to validate the fields
+            selected_file_path = os.path.join(user_dir, selected_file)
+            try:
+                with open(selected_file_path, 'r', encoding='utf-8') as csv_file:
+                    reader = csv.reader(csv_file)
+                    header = next(reader)  # Read the first row as the header
+                    header = [col.strip() for col in header]  # Strip spaces from the column names
+
+                    # Normalize user input
+                    sensitive_fields_list = [field.strip() for field in sensitive_fields.split(',')]
+                    identifying_fields_list = [field.strip() for field in identifying_fields.split(',') if field.strip()]
+
+                    # Check for missing fields
+                    missing_fields = [
+                        field for field in sensitive_fields_list + identifying_fields_list if field not in header
+                    ]
+                    if missing_fields:
+                        messages.error(
+                            request,
+                            f"The following fields are missing from the file: {', '.join(missing_fields)}. "
+                            "Please double-check your input as it is case, character, and space-sensitive."
+                        )
+                        return render(request, 'algorithm_selection.html', {'form': form})
+            except Exception as e:
+                messages.error(request, f"Error reading the selected file: {str(e)}. Please try again and if the issue persisits try re-uploading the file.")
+                return render(request, 'algorithm_selection.html', {'form': form})
+            
             # Save parameters to the database
             AlgorithmParameter.objects.create(
                 dataset=dataset,
