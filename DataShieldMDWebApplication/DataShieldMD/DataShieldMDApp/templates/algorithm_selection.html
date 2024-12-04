@@ -5,8 +5,11 @@
     <p><b>Instructions:</b></p>
     <ul>
         <li>Select a file from your uploaded files directory.</li>
-        <li>Specify the sensitive and identifying fields (one at a time or comma-separated).</li>
+        <li>Specify the sensitive field (currently only support one field).</li>
         <li>Choose at least one anonymization algorithm and provide its parameter(s).</li>
+        <li>For K-Anonymity the K value must be specified and must atleast 2.</li>
+        <li>For L-Diversity you can specifiy a K value which must be atleast 2, or if none is specifed then the K value will equal your L value. You must specify an L value greater than 2 and if a K value is specified the L value can not be greater than that K value.</li>
+        <li>For T-Closeness the K value must be specified and must be atleast 2. The T value must also be specified and must be between 0 and 1.</li>
     </ul>
 
     {% if form.non_field_errors %}
@@ -41,29 +44,26 @@
             {% endif %}
         </div>
 
-        <!-- Identifying Fields -->
-        <div>
-            <label for="identifying_fields">{{ form.identifying_fields.label }}</label>
-            {{ form.identifying_fields }}
-            {% if form.identifying_fields.errors %}
-            <div class="field-error">{{ form.identifying_fields.errors|join:", " }}</div>
-            {% endif %}
-        </div>
-
         <!-- Algorithm Selection -->
         <fieldset>
             <legend>Select Anonymization Algorithms:</legend>
             <div>
                 {{ form.k_anonymity }}
                 <label for="k_anonymity">{{ form.k_anonymity.label }}</label>
-                {{ form.k_value }}
-                {% if form.k_value.errors %}
-                <div class="field-error">{{ form.k_value.errors|join:", " }}</div>
+                {{ form.k_anonymity_k_value }}
+                {% if form.k_anonymity_k_value.errors %}
+                <div class="field-error">{{ form.k_anonymity_k_value.errors|join:", " }}</div>
                 {% endif %}
             </div>
             <div>
                 {{ form.l_diversity }}
                 <label for="l_diversity">{{ form.l_diversity.label }}</label>
+                
+                {{ form.l_diversity_k_value }}
+                {% if form.l_diversity_k_value.errors %}
+                <div class="field-error">{{ form.l_diversity_k_value.errors|join:", " }}</div>
+                {% endif %}
+                
                 {{ form.l_value }}
                 {% if form.l_value.errors %}
                 <div class="field-error">{{ form.l_value.errors|join:", " }}</div>
@@ -72,6 +72,12 @@
             <div>
                 {{ form.t_closeness }}
                 <label for="t_closeness">{{ form.t_closeness.label }}</label>
+                
+                {{ form.t_closeness_k_value }}
+                {% if form.t_closeness_k_value.errors %}
+                <div class="field-error">{{ form.t_closeness_k_value.errors|join:", " }}</div>
+                {% endif %}
+                
                 {{ form.t_value }}
                 {% if form.t_value.errors %}
                 <div class="field-error">{{ form.t_value.errors|join:", " }}</div>

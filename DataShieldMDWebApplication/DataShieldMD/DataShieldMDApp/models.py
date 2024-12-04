@@ -14,9 +14,11 @@ class Dataset(models.Model):
 class AlgorithmParameter(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)  # Links to the Datasets table
     algorithm_type = models.CharField(max_length=3)  # Example: 'K', 'KL', or 'KLT'
-    k_value = models.IntegerField(null=True, blank=True)  # Optional for k-anonymity
+    k_anonymity_k_value = models.IntegerField(null=True, blank=True)  # Optional for k-anonymity
     l_value = models.IntegerField(null=True, blank=True)  # Optional for l-diversity
+    l_diversity_k_value = models.IntegerField(null=True, blank=True)
     t_value = models.FloatField(null=True, blank=True)  # Optional for t-closeness
+    t_closeness_k_value = models.IntegerField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Ensure `algorithm_type` is always ordered as "K", "L", "T"
@@ -28,7 +30,7 @@ class AlgorithmParameter(models.Model):
 
 class ProcessedDataset(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)  # Links to the Datasets table
-    algorithm_type = models.CharField(max_length=3)  #'k' for k-anonymity, 'l' for l-diversity, or 't' for t-closeness
+    algorithm_type = models.CharField(max_length=1)  #'k' for k-anonymity, 'l' for l-diversity, or 't' for t-closeness
     processed_file_path = models.CharField(max_length=255)  # Path to the processed file
 
     def __str__(self):

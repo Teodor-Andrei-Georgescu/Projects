@@ -244,23 +244,8 @@ def get_global_freq(df, sensitive_column):
 
 '''
 
-def apply_k_anonymity(data_path, identifying_fields_list,sensitive_fields, k,output_path):
-    """
-    Apply K-Anonymity to a dataset using Anonypy.
 
-    Args:
-        data_path (str): Path to the input dataset (CSV file).
-        quasi_identifiers (list): List of quasi-identifiers to generalize.
-        k (int): Desired K-anonymity level.
-
-    Returns:
-        pd.DataFrame: Anonymized dataset.
-
-    Raises:
-        ValueError: If an error occurs during anonymization.
-    """
-    
-    # Load dataset
+def read_data(data_path, sensitive_fields,):
     data = pd.read_csv(data_path)
     categorical = set()
     columns = []
@@ -271,13 +256,39 @@ def apply_k_anonymity(data_path, identifying_fields_list,sensitive_fields, k,out
             
     for column in categorical:
         data[column] = data[column].astype('category')
+        
+    return data, columns
     
+def apply_k_anonymity(data_path,sensitive_fields, k,output_path):
+   
+    data , columns = read_data(data_path,sensitive_fields)
     p = anonypy.Preserver(data, columns, sensitive_fields)
     rows = p.anonymize_k_anonymity(k)
 
     dfn = pd.DataFrame(rows)
-    #print(dfn)
+    dfn.drop(["count"],axis=1, inplace=True)
+    dfn.to_csv(output_path, index=False)
+
+def apply_l_diversity(data_path,sensitive_fields,k,l,output_path):
+    
+    if k == None:
+        k = l
+    data , columns = read_data(data_path,sensitive_fields)
+    p = anonypy.Preserver(data, columns, sensitive_fields)
+    rows = p.anonymize_l_diversity(k,l)
+    
+    dfn = pd.DataFrame(rows)
+    dfn.drop(["count"],axis=1, inplace=True)
     dfn.to_csv(output_path, index=False)
     
+def apply_t_closeness(data_path, sensitive_fields, k, t, output_path):
+    
+    data , columns = read_data(data_path,sensitive_fields)
+    p = anonypy.Preserver(data, columns, sensitive_fields)
+    rows = p.anonymize_t_closeness(k,t)
+    
+    dfn = pd.DataFrame(rows)
+    dfn.drop(["count"],axis=1, inplace=True)
+    dfn.to_csv(output_path, index=False)
     
     

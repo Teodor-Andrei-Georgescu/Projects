@@ -99,6 +99,7 @@ def handle_uploaded_file(uploaded_file, user_dir):
 
 @login_required
 def upload_file(request):
+    form = FileUploadForm()
     if request.method == 'POST':
         # Handle file upload
         if 'file' in request.FILES:
@@ -123,7 +124,9 @@ def upload_file(request):
                 return redirect('upload_file')  # Refresh the page
             else:
                 messages.error(request, "Something went wrong uploading your file. Please try again.")
-
+        else:
+            messages.error(request, "No file was selected for upload. Please try again.")
+        
         # Handle file deletion
         if 'delete_file' in request.POST:
             file_to_delete = request.POST.get('delete_file')
@@ -231,13 +234,14 @@ def algorithm_selection(request):
             # Process the form data
             selected_file = form.cleaned_data['file']
             sensitive_fields = form.cleaned_data['sensitive_fields']
-            identifying_fields = form.cleaned_data['identifying_fields']
 
             # Collect algorithm types and their parameters
             algorithm_type = ""
-            k_value = form.cleaned_data.get('k_value')
+            k_anonymity_k_value = form.cleaned_data.get('k_anonymity_k_value')
             l_value = form.cleaned_data.get('l_value')
+            l_diversity_k_value = form.cleaned_data.get('l_diversity_k_value')
             t_value = form.cleaned_data.get('t_value')
+            t_closeness_k_value = form.cleaned_data.get('t_closeness_k_value')
 
             if form.cleaned_data.get('k_anonymity'):
                 algorithm_type += "K"
@@ -262,11 +266,10 @@ def algorithm_selection(request):
 
                     # Normalize user input
                     sensitive_fields_list = [field.strip() for field in sensitive_fields.split(',')]
-                    identifying_fields_list = [field.strip() for field in identifying_fields.split(',') if field.strip()]
 
                     # Check for missing fields
                     missing_fields = [
-                        field for field in sensitive_fields_list + identifying_fields_list if field not in header
+                        field for field in sensitive_fields_list if field not in header
                     ]
                     if missing_fields:
                         messages.error(
@@ -283,9 +286,11 @@ def algorithm_selection(request):
             AlgorithmParameter.objects.create(
                 dataset=dataset,
                 algorithm_type=algorithm_type,
-                k_value=k_value,
+                k_anonymity_k_value=k_anonymity_k_value,
                 l_value=l_value,
-                t_value=t_value
+                l_diversity_k_value = l_diversity_k_value,
+                t_value=t_value,
+                t_closeness_k_value=t_closeness_k_value
             )
             
             # Provide success feedback
@@ -296,11 +301,48 @@ def algorithm_selection(request):
                 if form.cleaned_data.get('k_anonymity'):
                     try:
                         output_path = os.path.join(processed_dir, f'k_anonymized_{selected_file}')
-                        apply_k_anonymity(selected_file_path, identifying_fields_list,sensitive_fields, k_value,output_path)
+                        apply_k_anonymity(selected_file_path,sensitive_fields, k_anonymity_k_value ,output_path)
                         messages.success(request, f"K-Anonymity applied successfully")
+                        
+                        ProcessedDataset.objects.create(
+                            dataset=dataset,
+                            algorithm_type="K",
+                            processed_file_path=output_path
+                        )
+                        
                     except Exception as e:
                         messages.error(request, f"Error applying K-Anonymity: {e}")
                
+                if form.cleaned_data.get('l_diversity'):
+                    try:
+                        output_path = os.path.join(processed_dir, f'l_diversified_{selected_file}')
+                        apply_l_diversity(selected_file_path, sensitive_fields, l_diversity_k_value, l_value,output_path)
+                        messages.success(request, f"L-Diversity applied successfully")
+                    
+                        ProcessedDataset.objects.create(
+                            dataset=dataset,
+                            algorithm_type="L",
+                            processed_file_path=output_path
+                        )
+                        
+                    except Exception as e:
+                        messages.error(request, f"Error applying L-Diversity: {e}") 
+                
+                if form.cleaned_data.get('t_closeness'):
+                    try:
+                        output_path = os.path.join(processed_dir, f't_close_{selected_file}')
+                        apply_t_closeness(selected_file_path, sensitive_fields, t_closeness_k_value, t_value, output_path)
+                        messages.success(request, f"T-Closeness applied successfully")
+                    
+                        ProcessedDataset.objects.create(
+                            dataset=dataset,
+                            algorithm_type="T",
+                            processed_file_path=output_path
+                        )
+                        
+                    except Exception as e:
+                        messages.error(request, f"Error applying T-Closeness: {e}") 
+                                                    
             except ValueError as e:
                 messages.error(request, str(e))
             except Exception as e:
@@ -317,7 +359,7 @@ def algorithm_selection(request):
     return render(request, 'algorithm_selection.html', {'form': form})
 
 
-#This versions is archived because the form reasoruces I have found it seems to be going same direction as the anonypy one.
+#This versions is archived because the from reasources I have found it seems to be going same direction as the anonypy one.
 '''
 #this will be for my custom implementation
 @login_required

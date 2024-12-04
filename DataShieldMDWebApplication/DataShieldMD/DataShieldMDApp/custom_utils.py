@@ -2,7 +2,7 @@ import pandas as pd
 
 '''
 Own implementon but it seems to be heading towards teh anonypy one so I might as well use that one.
-
+ worth testing tho to see if it actually only partitions by qi and still keeps other fields
 '''
 def summarized(partition,dim,quasi_identifers):
     for qi in quasi_identifers:

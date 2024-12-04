@@ -620,7 +620,7 @@ input:checked + .slider:before {
 
 /*
 Algoirthm slection page 
-Just uses most stype fime file upload so it looks the same.
+Just uses most style from file upload so it looks the same.
 */
 .algorithm_selection_form  div {
     margin-bottom: 20px;
@@ -628,6 +628,9 @@ Just uses most stype fime file upload so it looks the same.
 
 .algorithm_selection_form fieldset  {
     border-radius: 10px;
+}
+.file-upload-container li {
+    margin-bottom: 15px;
 }
 /*
 This is used to make webapge somewwhat responsive to different sizes
