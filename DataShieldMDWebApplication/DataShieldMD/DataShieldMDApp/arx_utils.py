@@ -1,6 +1,8 @@
 from django.conf import settings
 from jnius import autoclass
-
+'''
+Spent alot of time on this but couldnt get the hierarchy to work so this is bascially worthless.
+'''
 # Load Java classes
 ARXAnonymizer = autoclass('org.deidentifier.arx.ARXAnonymizer')
 Data = autoclass('org.deidentifier.arx.Data')
@@ -11,9 +13,100 @@ KAnonymity = autoclass('org.deidentifier.arx.criteria.KAnonymity')
 DistinctLDiversity = autoclass('org.deidentifier.arx.criteria.DistinctLDiversity')
 EqualDistanceTCloseness = autoclass('org.deidentifier.arx.criteria.EqualDistanceTCloseness')
 CSVSyntax = autoclass('org.deidentifier.arx.io.CSVSyntax')
+DefaultHierarchy = autoclass('org.deidentifier.arx.AttributeType$Hierarchy$DefaultHierarchy')
 
-
+#smt is clearl wrong here or I am doing smt wrong as things are anonimzying weirdly.
+#I need to add hierachies I think
 class ARXWrapper:
+    @staticmethod
+    def create_hierarchy_for_numerical(data_handle, attribute_name):
+        """
+        Create a numerical hierarchy using DefaultHierarchy for valid dataset values.
+        """
+        DefaultHierarchy = autoclass('org.deidentifier.arx.AttributeType$Hierarchy$DefaultHierarchy')
+
+        # Find the column index for the attribute
+        attribute_index = ARXWrapper.get_attribute_index(data_handle, attribute_name)
+
+        # Extract numerical values for the attribute
+        values = set(data_handle.getDistinctValues(attribute_index))
+        numeric_values = sorted(float(v) for v in values)
+
+        # Create the hierarchy
+        hierarchy = DefaultHierarchy.create()
+        step = 10  # Define the generalization step
+        for value in numeric_values:
+            generalized_value = f"{int(value // step * step)}-{int(value // step * step + step - 1)}"
+            hierarchy.add(str(value), generalized_value, "*")
+
+        return hierarchy
+
+    
+    @staticmethod
+    def create_hierarchy_for_text(data_handle, attribute_name):
+        """
+        Create a text hierarchy using HierarchyBuilderRedactionBased.
+        Generalizes text by masking characters.
+        """
+        HierarchyBuilderRedactionBased = autoclass('org.deidentifier.arx.aggregates.HierarchyBuilderRedactionBased')
+
+        # Find the column index for the attribute
+        attribute_index = ARXWrapper.get_attribute_index(data_handle, attribute_name)
+
+        # Define hierarchy using HierarchyBuilder
+        builder = HierarchyBuilderRedactionBased.create('*')
+        values = set(data_handle.getDistinctValues(attribute_index))
+        for value in values:
+            builder.add(value)
+        return builder.build()
+
+    
+    @staticmethod
+    def generate_and_apply_hierarchies(data, quasi_identifiers):
+        """
+        Dynamically create and apply hierarchies for numerical and textual quasi-identifiers.
+        """
+        data_definition = data.getDefinition()
+        data_handle = data.getHandle()
+
+        for attribute in quasi_identifiers:
+            # Dynamically determine the type of hierarchy
+            if ARXWrapper.is_numeric(data_handle, attribute):
+                hierarchy = ARXWrapper.create_hierarchy_for_numerical(data_handle, attribute)
+            else:
+                hierarchy = ARXWrapper.create_hierarchy_for_text(data_handle, attribute)
+
+            print(f"Hierarchy class: {hierarchy.__class__}")
+            # Apply the hierarchy
+            data_definition.setAttributeType(attribute, hierarchy)
+
+        return data
+
+    @staticmethod
+    def get_attribute_index(data_handle, attribute_name):
+        """
+        Find the column index for a given attribute name.
+        """
+        num_columns = data_handle.getNumColumns()
+        for i in range(num_columns):
+            if data_handle.getAttributeName(i) == attribute_name:
+                return i
+        raise ValueError(f"Attribute '{attribute_name}' not found in data handle.")
+
+    @staticmethod
+    def is_numeric(data_handle, attribute_name):
+        """
+        Determine if the attribute is numeric based on its distinct values.
+        """
+        attribute_index = ARXWrapper.get_attribute_index(data_handle, attribute_name)
+        values = data_handle.getDistinctValues(attribute_index)
+        try:
+            # Try converting all values to floats
+            [float(value) for value in values]
+            return True
+        except ValueError:
+            return False
+        
     @staticmethod
     def load_data(file_path, identifying_fields, sensitive_fields, k_anonmity):
         """Load data from a CSV file with UTF-8 encoding and proper CSV syntax."""
@@ -60,7 +153,7 @@ class ARXWrapper:
             attr_type = data_definition.getAttributeType(attr).toString()
             print(f"Attribute: {attr}, Type: {attr_type}")
         
-        return data
+        return data,identifying_fields
 
     
     @staticmethod
