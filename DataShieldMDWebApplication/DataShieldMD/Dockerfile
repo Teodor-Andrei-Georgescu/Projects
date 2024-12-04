@@ -8,21 +8,6 @@ EXPOSE 8000
 # Set the working directory
 WORKDIR /DataShieldMD
 
-# Install Python dependencies and OpenJDK
-RUN apk update && apk add --no-cache \
-    openjdk17 \
-    openjdk17-jdk \
-    build-base \
-    bash \
-    git
-
-# Set JAVA_HOME and update PATH
-ENV JAVA_HOME="/usr/lib/jvm/java-17-openjdk"
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
-
-# Verify Java installation
-RUN java -version
-
 # Copy the requirements file and install Python dependencies
 COPY requirements.txt /DataShieldMD
 RUN pip3 install --no-cache-dir -r requirements.txt
