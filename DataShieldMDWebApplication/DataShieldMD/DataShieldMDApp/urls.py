@@ -12,6 +12,7 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('upload/', views.upload_file, name='upload_file'),
     path('algorithm_selection_and_processing/', views.algorithm_selection, name='algorithm_selection'),
+    path('processed/', views.processed_datasets, name='processed_datasets'),
 ]
 
 if settings.DEBUG:

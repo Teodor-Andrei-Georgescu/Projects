@@ -14,7 +14,7 @@ from datetime import datetime
 import pandas as pd
 import csv
 from .anonypy_utils import *
-from .custom_utils import *
+from django.http import FileResponse
 
 '''
 Home page, only displays info.
@@ -337,7 +337,7 @@ def algorithm_selection(request):
                         ProcessedDataset.objects.create(
                             dataset=dataset,
                             algorithm_type="T",
-                            processed_file_path=output_path
+                            processed_file_path=output_path,
                         )
                         
                     except Exception as e:
@@ -357,6 +357,58 @@ def algorithm_selection(request):
         form = AlgorithmSelectionForm(file_choices=file_choices)
 
     return render(request, 'algorithm_selection.html', {'form': form})
+
+
+@login_required
+def processed_datasets(request):
+    # Define the processed directory
+    processed_dir = os.path.join(settings.MEDIA_ROOT, request.user.username, 'processed')
+    
+    if request.method == 'POST':
+        file_name = request.POST.get('file_name')
+        action = request.POST.get('action')
+        file_path = os.path.join(processed_dir, file_name)
+
+        # Handle download action
+        if action == 'download':
+            if os.path.exists(file_path):
+                return FileResponse(open(file_path, 'rb'), as_attachment=True, filename=file_name)
+            else:
+                messages.error(request, f"File '{file_name}' does not exist.")
+
+        # Handle delete action
+        elif action == 'delete':
+            if os.path.exists(file_path):
+                os.remove(file_path)
+                messages.success(request, f"File '{file_name}' was successfully deleted.")
+            else:
+                messages.error(request, f"File '{file_name}' does not exist.")
+
+        return redirect('processed_datasets')  # Redirect after handling action
+
+    # Fetch processed files
+    processed_files = []
+    if os.path.exists(processed_dir):
+        for file_name in os.listdir(processed_dir):
+            full_path = os.path.join(processed_dir, file_name)
+            if os.path.isfile(full_path):
+                processed_files.append({
+                    'filename': file_name,
+                    'upload_date': datetime.fromtimestamp(os.path.getmtime(full_path))  # Get file modification time
+                })
+
+    # Sort files by modification date
+    processed_files = sorted(processed_files, key=lambda x: x['upload_date'], reverse=True)
+
+    # Paginate processed files
+    paginator = Paginator(processed_files, 10)  # Show 10 files per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'processed_datasets.html', {
+        'page_obj': page_obj,
+    })
+
 
 
 #This versions is archived because the from reasources I have found it seems to be going same direction as the anonypy one.

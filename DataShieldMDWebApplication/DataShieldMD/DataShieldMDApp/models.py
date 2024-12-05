@@ -32,6 +32,7 @@ class ProcessedDataset(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)  # Links to the Datasets table
     algorithm_type = models.CharField(max_length=1)  #'k' for k-anonymity, 'l' for l-diversity, or 't' for t-closeness
     processed_file_path = models.CharField(max_length=255)  # Path to the processed file
+    processed_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Processed {self.dataset.filename} with {self.algorithm_type}"
