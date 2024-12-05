@@ -12,6 +12,9 @@ WORKDIR /DataShieldMD
 COPY requirements.txt /DataShieldMD
 RUN pip3 install --no-cache-dir -r requirements.txt
 
+# Copy my modified local version of anonypy into the image
+COPY libs/anonypy /usr/local/lib/python3.9/site-packages/anonypy
+
 # Copy the application source code
 COPY . /DataShieldMD
 
