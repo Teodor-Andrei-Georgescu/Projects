@@ -51,6 +51,8 @@ Simple form to file uploading.
 class FileUploadForm(forms.Form):
     file = forms.FileField(required=True,label="Select a file")
     
+    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+    
     def clean_file(self):
         uploaded_file = self.cleaned_data.get('file')
         if uploaded_file:
@@ -59,6 +61,11 @@ class FileUploadForm(forms.Form):
             allowed_extensions = ['xlsx', 'csv']
             if extension not in allowed_extensions:
                 raise ValidationError("Only .xlsx and .csv file types are allowed.")
+        
+            if uploaded_file.size > self.MAX_FILE_SIZE:
+                raise ValidationError(f"File size must not exceed {self.MAX_FILE_SIZE / (1024 * 1024):.1f} MB.")
+
+        
         return uploaded_file
     
 '''
@@ -77,7 +84,8 @@ class AlgorithmSelectionForm(forms.Form):
     k_anonymity_k_value = forms.IntegerField(
         required=False,
         widget=forms.NumberInput(attrs={
-            'placeholder': 'Enter K value (min 2)',
+            'min': 2,
+            'placeholder': 'Enter K value',
             'class': 'algorithm-param',
             'data-algo': 'k_anonymity'
         })
@@ -86,7 +94,8 @@ class AlgorithmSelectionForm(forms.Form):
     l_diversity_k_value = forms.IntegerField(
         required=False,
         widget=forms.NumberInput(attrs={
-            'placeholder': 'Enter L-diversity K value (min 2)',
+            'min': 2,
+            'placeholder': 'Enter L-diversity K value',
             'class': 'algorithm-param',
             'data-algo': 'l_diversity'
         })
@@ -94,7 +103,8 @@ class AlgorithmSelectionForm(forms.Form):
     l_value = forms.IntegerField(
         required=False,
         widget=forms.NumberInput(attrs={
-            'placeholder': 'Enter L value (min 2 max L-diversity k value)',
+            'min': 2,
+            'placeholder': 'Enter L value',
             'class': 'algorithm-param',
             'data-algo': 'l_diversity'
         })
@@ -103,7 +113,9 @@ class AlgorithmSelectionForm(forms.Form):
     t_closeness_k_value = forms.IntegerField(
         required=False,
         widget=forms.NumberInput(attrs={
-            'placeholder': 'Enter T-Closeness K value (min 2)',
+            'min': 2,
+            'style': 'width: 172px;',
+            'placeholder': 'Enter T-Closeness K value',
             'class': 'algorithm-param',
             'data-algo': 't_closeness'
         })
@@ -111,6 +123,10 @@ class AlgorithmSelectionForm(forms.Form):
     t_value = forms.FloatField(
         required=False,
         widget=forms.NumberInput(attrs={
+            'min': 0,
+            'max': 1,
+            'step': 0.1,
+            'style': 'width: 172px;',
             'placeholder': 'Enter T value (0 - 1)',
             'class': 'algorithm-param',
             'data-algo': 't_closeness'

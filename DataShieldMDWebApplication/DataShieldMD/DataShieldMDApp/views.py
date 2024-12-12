@@ -278,6 +278,39 @@ def algorithm_selection(request):
                             "Please double-check your input as it is case, character, and space-sensitive."
                         )
                         return render(request, 'algorithm_selection.html', {'form': form})
+            
+                    # Count total number of rows in the file (excluding the header)
+                    row_count = sum(1 for _ in reader)
+                    
+                    error_occured = False
+                    
+                    if k_anonymity_k_value:
+                        if k_anonymity_k_value > row_count:
+                            form.add_error('k_anonymity_k_value',f'This value can not be bigger than the number of rows in the file which is: {row_count}')
+                            messages.error(request,f'Please check your K-Anonymity K-value.')
+                            error_occured = True
+            
+                    if l_diversity_k_value:
+                        if l_diversity_k_value > row_count:
+                            form.add_error('l_diversity_k_value',f'This value can not be bigger than the number of rows in the file which is: {row_count}')
+                            messages.error(request,f'Please check your L-Diversity K-value.')
+                            error_occured = True
+
+                    if l_value:
+                        if l_value > row_count:
+                            form.add_error('l_value',f'This value can not be bigger than the number of rows in the file which is: {row_count}')
+                            messages.error(request,f'Please check your L-Diversity L-value.')
+                            error_occured = True
+                            
+                    if t_closeness_k_value:
+                        if t_closeness_k_value > row_count:
+                            form.add_error('t_closeness_k_value',f'This value can not be bigger than the number of rows in the file which is: {row_count}')
+                            messages.error(request,f'Please check your T-Closeness K-value.')
+                            error_occured = True
+                    
+                    if error_occured:
+                        return render(request, 'algorithm_selection.html', {'form': form})
+                
             except Exception as e:
                 messages.error(request, f"Error reading the selected file: {str(e)}. Please try again and if the issue persisits try re-uploading the file.")
                 return render(request, 'algorithm_selection.html', {'form': form})

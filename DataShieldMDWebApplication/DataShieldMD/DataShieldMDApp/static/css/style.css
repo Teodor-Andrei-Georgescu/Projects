@@ -61,6 +61,8 @@ This bit until the next comment is used for sytling the header and the footer
     font-weight: bold;
     text-decoration: none;
     transition: color 0.3s ease;
+    text-decoration: underline;
+
 }
 
 .center-section li a:hover {
