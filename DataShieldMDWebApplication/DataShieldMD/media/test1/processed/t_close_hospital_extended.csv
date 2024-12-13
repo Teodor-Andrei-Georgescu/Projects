@@ -1,9 +1,10 @@
 name,age,gender,city,religion,disease
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",17,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",19,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",22,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",23,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",24,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",27,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",28,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
-"['Joan,Sunny,Sabu,Jonas,Ramsha,Kishor,John,Salima,Yadu,Rambha,Bahuksana,Gabu,Johnson']",29,"['Female,Male']","['Kerala,Tamil Nadu,Karnataka']","['Muslim,Christian,Buddhist,Hindu,Parsi']","['Cancer,Viral infection,TB,No illness,Heart-related']"
+"['Bahuksana,Sabu,Rambha,Jonas,Johnson,John']",['17-23'],['Male'],"['Karnataka,Kerala,Tamil Nadu']","['Hindu,Buddhist,Christian']",Cancer
+"['Bahuksana,Sabu,Rambha,Jonas,Johnson,John']",['17-23'],['Male'],"['Karnataka,Kerala,Tamil Nadu']","['Hindu,Buddhist,Christian']",Heart-related
+"['Bahuksana,Sabu,Rambha,Jonas,Johnson,John']",['17-23'],['Male'],"['Karnataka,Kerala,Tamil Nadu']","['Hindu,Buddhist,Christian']",TB
+"['Bahuksana,Sabu,Rambha,Jonas,Johnson,John']",['17-23'],['Male'],"['Karnataka,Kerala,Tamil Nadu']","['Hindu,Buddhist,Christian']",Viral infection
+"['Kishor,Salima,Gabu,Sunny,Ramsha,Joan,Yadu']",['24-29'],"['Male,Female']","['Karnataka,Kerala,Tamil Nadu']","['Hindu,Muslim,Christian,Parsi']",Cancer
+"['Kishor,Salima,Gabu,Sunny,Ramsha,Joan,Yadu']",['24-29'],"['Male,Female']","['Karnataka,Kerala,Tamil Nadu']","['Hindu,Muslim,Christian,Parsi']",Heart-related
+"['Kishor,Salima,Gabu,Sunny,Ramsha,Joan,Yadu']",['24-29'],"['Male,Female']","['Karnataka,Kerala,Tamil Nadu']","['Hindu,Muslim,Christian,Parsi']",No illness
+"['Kishor,Salima,Gabu,Sunny,Ramsha,Joan,Yadu']",['24-29'],"['Male,Female']","['Karnataka,Kerala,Tamil Nadu']","['Hindu,Muslim,Christian,Parsi']",TB
+"['Kishor,Salima,Gabu,Sunny,Ramsha,Joan,Yadu']",['24-29'],"['Male,Female']","['Karnataka,Kerala,Tamil Nadu']","['Hindu,Muslim,Christian,Parsi']",Viral infection

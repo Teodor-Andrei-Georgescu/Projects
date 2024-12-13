@@ -1,5 +1,6 @@
 {% extends 'partials/base.html' %}
 {% block content %}
+{% load static %}
 <div class="file-upload-container">
     <h2>{{ user.username }}'s Algorithm Selection and Processing</h2>
     <p><b>Instructions:</b></p>
@@ -7,10 +8,16 @@
         <li>Select a file from your uploaded files directory.</li>
         <li>Specify the sensitive field (currently only support one field).</li>
         <li>Choose at least one anonymization algorithm and provide its parameter(s).</li>
+        <li>All K-Values, and the L-Value mentioned below can not be bigger than the number of rows in the selected file.</li>
         <li>For K-Anonymity the K value must be specified and must atleast 2.</li>
         <li>For L-Diversity you can specifiy a K value which must be atleast 2, or if none is specifed then the K value will equal your L value. You must specify an L value greater than 2 and if a K value is specified the L value can not be greater than that K value.</li>
         <li>For T-Closeness the K value must be specified and must be atleast 2. The T value must also be specified and must be between 0 and 1.</li>
+        <video width="640" height="360" controls>
+            <source src="{% static 'videos/tutorial1.mp4' %}" type="video/mp4">
+            Tutorial explaining how to use alogrithm selection and what each paramater means.
+        </video>
     </ul>
+
 
     {% if form.non_field_errors %}
     <div class="alert error">

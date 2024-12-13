@@ -122,6 +122,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 STATIC_URL = 'static/'
 
+
 # Media files settings
 MEDIA_URL = '/media/'  # URL to access media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory to store media files
