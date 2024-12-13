@@ -184,6 +184,11 @@ This is used to style the how we do it page
 .section a:hover {
     text-decoration: underline;
 }
+.service-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
 /*
 This section is for styling the home/landing page we do use same idea as 
 how-we-do it page.

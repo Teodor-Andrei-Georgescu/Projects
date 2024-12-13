@@ -27,12 +27,10 @@
 
     <div class="section service-preview">
         <h2>Service Preview</h2>
-        <div class="preview-images">
-            <img src="{% static '' %}" alt="File Upload Page Preview">
-            <span>→</span>
-            <img src="{% static '' %}" alt="Algorithm Selection Page Preview">
-        </div>
-        <p>(Will be swipe-through with images of each page or something like that)</p>
+        <video width="640" height="360" controls>
+            <source src="{% static 'videos/preview.mp4' %}" type="video/mp4">
+            Preview video of the application.
+        </video>
     </div>
 
     <div class="section about">
