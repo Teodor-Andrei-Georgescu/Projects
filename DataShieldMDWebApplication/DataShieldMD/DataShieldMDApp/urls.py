@@ -3,6 +3,9 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+'''
+This file defines all the URL patterns for the application and maps them to their respective views.
+'''
 urlpatterns = [
     path('', views.home, name='home'),
     path('home/', views.home, name='home'),

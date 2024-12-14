@@ -1,8 +1,15 @@
+<!-- 
+Extends the base template for consistent layout across pages.
+
+This template is for displaying and managing processed datasets.
+-->
 {% extends 'partials/base.html' %}
 {% block content %}
 <div class="file-upload-container">
+    <!-- Page header displaying the current user's username -->
     <h2>{{ user.username }}'s Processed Datasets</h2>
 
+    <!-- Instruction section for informing the user -->
     <p><b>Instructions</b></p>
     <ul>
         <li>This page shows all your processed datasets.</li>
@@ -11,6 +18,7 @@
         <li>It is possible to re-process a dataset but in doing it will replace the currently processed version of that dataset.</li>
     </ul>
 
+    <!-- Table to display processed datasets -->
     <table>
         <thead>
             <tr>
@@ -20,12 +28,14 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Loop through the list of processed files -->
             {% for file in page_obj.object_list %}
             <tr>
+                <!-- Display the filename and processing date -->
                 <td>{{ file.filename }}</td>
                 <td>{{ file.upload_date }}</td>
                 <td>
-                    <!-- Download Button -->
+                    <!-- Display Download Button -->
                     <form method="post" style="display:inline;">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="download">
@@ -33,7 +43,7 @@
                         <button type="submit" class="btn download-btn">Download</button>
                     </form>
 
-                    <!-- Delete Button -->
+                    <!--Display Delete Button -->
                     <form method="post" style="display:inline;">
                         {% csrf_token %}
                         <input type="hidden" name="action" value="delete">
@@ -43,6 +53,7 @@
                 </td>
             </tr>
             {% empty %}
+             <!-- Display no files if none are found -->
             <tr>
                 <td colspan="2" class="empty">No processed files found</td>
             </tr>
@@ -53,15 +64,18 @@
     <!-- Pagination Controls -->
     <div class="pagination">
         <span class="step-links">
+            <!-- Display link to the first and previous pages if available -->
             {% if page_obj.has_previous %}
                 <a href="?page=1">&laquo; first</a>
                 <a href="?page={{ page_obj.previous_page_number }}">previous</a>
             {% endif %}
 
+            <!-- Display the current page number -->
             <span class="current">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
             </span>
 
+            <!-- Display link to the next and last pages if available -->
             {% if page_obj.has_next %}
                 <a href="?page={{ page_obj.next_page_number }}">next</a>
                 <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>

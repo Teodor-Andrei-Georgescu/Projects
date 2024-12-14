@@ -17,9 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+'''
+Made sure to include all URLs defined in the app.
+'''
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('DataShieldMDApp.urls')),
-    #path('auth/', include('djoser.urls')),
-    #path('auth/', include('djoser.urls.authtoken')),
 ]

@@ -1,10 +1,18 @@
+<!--
+Extends the base template for consistent layout 
+
+This template is for the login page.
+
+There isnt much because there exists a built-in login from in django thats ready to use.
+As a result we simply load that form field by field.
+-->
 {% extends "partials/base.html" %}
 {% load static %}
 {% block content %}
 <div class="login-container">
     <h2>Login</h2>
     
-    <!-- Display non-field errors -->
+    <!-- Display non-field errors, which are those not related to a specific input field.-->
     {% if form.non_field_errors %}
     <div class="form-error">
         {{ form.non_field_errors }}

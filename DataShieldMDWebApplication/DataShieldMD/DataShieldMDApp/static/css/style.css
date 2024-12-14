@@ -1,5 +1,7 @@
 /*
-This bit until the next comment is used for sytling the header and the footer
+Every comment in this file is is describing the code underneath until the next comment.
+
+This first bit is used to style the "header.html" file.
 */
 .navbar-header {
     background-color: #9fbb9a;
@@ -97,7 +99,7 @@ This bit until the next comment is used for sytling the header and the footer
     background-color: #818080;
 }
 /*
-This section is specifically for footer
+This next section is for styling the footer of my webpage.
 */
 .navbar-footer {
     background-color: #9fbb9a;
@@ -134,9 +136,8 @@ This section is specifically for footer
     text-decoration: underline;
     color: #5a5959
 }
-
 /*
-This is used to style the how we do it page
+This next section is for styling the "how we do it page"
 */
 .how-we-do-it {
     text-align: center;
@@ -190,8 +191,9 @@ This is used to style the how we do it page
     align-items: center; 
 }
 /*
-This section is for styling the home/landing page we do use same idea as 
-how-we-do it page.
+This next section is for styling the "home page" which may also be referd to as the landing page.
+
+It is very short because a majority of styling elements were used from the "how we do it" section to ensure consistency across these pages.
 */
 .home {
     text-align: center;
@@ -204,7 +206,10 @@ how-we-do it page.
 }
 
 /*
-This section is for styling the login and register pages.
+This next section is for styling the login and register pages.
+
+No usage of components from any of the sections above.
+Only ensured to use same color scheme for conistency.
 */
 .login-container,
 .register-container {
@@ -247,8 +252,8 @@ This section is for styling the login and register pages.
 }
 
 .form-group input.error {
-    border-color: #f5c6cb; /* Red border for fields with errors */
-    background-color: #f8d7da; /* Light red background */
+    border-color: #f5c6cb;
+    background-color: #f8d7da;
 }
 
 .field-error {
@@ -312,7 +317,9 @@ This section is for styling the login and register pages.
 }
 
 /*
-Styling for messages at the top of the screen
+This next section is styling for messages that appear at the top of the screen.
+
+This includes both success and erroor message styling.
 */
 .messages {
     position: fixed;
@@ -372,8 +379,12 @@ Styling for messages at the top of the screen
 .close-button:hover {
     color: red;
 }
+
 /* 
-Styling for File Upload Page 
+This next section is for styling the file upload page.
+
+I opted to not use components of "home" and "how we do it" pages because these is the first page with utility.
+As a result this will follow the same color scheme but use its own element.
 */
 .file-upload-container {
     max-width: 800px;
@@ -473,7 +484,6 @@ Styling for File Upload Page
     text-decoration: none;
 }
 
-/* Styling for File Input */
 .file-upload {
     display: flex;
     align-items: center;
@@ -494,18 +504,22 @@ Styling for File Upload Page
 .file-label:hover {
     background-color: #ccc;
 }
-/* Styling for Selected File Name */
+
 #file-name {
     font-weight: bold;
-    font-size: 16px; /* Larger font size for better visibility */
-    color: #000000; /* White text for contrast */
-    background-color: #cbddcc; /* Green background to highlight */
-    padding: 5px 10px; /* Add some spacing around the text */
-    border-radius: 5px; /* Rounded corners for a polished look */
-    margin-left: 10px; /* Space between the label and file name */
-    display: inline-block; /* Ensure proper alignment */
+    font-size: 16px;
+    color: #000000; 
+    background-color: #cbddcc; 
+    padding: 5px 10px; 
+    border-radius: 5px; 
+    margin-left: 10px; 
+    display: inline-block; 
 }
+/*
+This section is still for the file upload page but this is for styling the pagnation feature.
 
+This also ends up being used in the processed datasets page.
+*/
 .pagination {
     margin-top: 20px;
     display: flex;
@@ -535,33 +549,28 @@ Styling for File Upload Page
     color: #333;
 }
 /*
-Styling for search bar and switch
-*/
-.toggle-switch {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-}
+This section is also for file upload but is for styling the switch to toggle between currently stored files and all files ever stored.
 
+Also for styling the search bar.
+*/
 .search-form {
     display: flex;
-    flex-direction: column; /* Stack items vertically */
-    gap: 10px; /* Space between items */
-    margin-bottom: 20px; /* Space below the search form */
+    flex-direction: column; 
+    gap: 10px; 
+    margin-bottom: 20px; 
 }
 .search-row {
     display: flex;
-    flex-direction: row; /* Stack items vertically */
-    gap: 10px; /* Space between items */
-    margin-bottom: 20px; /* Space below the search form */
+    flex-direction: row; 
+    gap: 10px; 
+    margin-bottom: 20px; /
 }
 
 .toggle-switch {
     display: flex;
     align-items: center;
     gap: 10px;
-    justify-content: flex-start; /* Align the switch to the left */
+    justify-content: flex-start; 
     margin-top: 10px;
 }
 
@@ -609,25 +618,10 @@ input:checked + .slider {
 input:checked + .slider:before {
     transform: translateX(26px);
 }
-
-.delete-btn {
-    background-color: #ff6666;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 5px 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.delete-btn:hover {
-    background-color: #cc0000;
-}
-
-
 /*
-Algoirthm slection page 
-Just uses most style from file upload so it looks the same.
+This section below is for the algorithm slection page.
+
+Mostly used components from file upload styling to maintain conistent look.
 */
 .algorithm_selection_form  div {
     margin-bottom: 20px;
@@ -640,24 +634,7 @@ Just uses most style from file upload so it looks the same.
     margin-bottom: 15px;
 }
 /*
-This is used to make webapge somewwhat responsive to different sizes
+There is no section for the processed datasets page as it entirely inherits components used above. 
+
+The majority are from the file upload styling to ensure a consistent look.
 */
-@media (max-width: 80px) {
-    section {
-        flex-direction: column;   
-    }
-
-    .row {
-        flex-direction: column;
-        width: 100%;
-      }
-   
-    input{
-        width: 100%;
-    }
-
-    #button{
-        width: 100%;
-    }
-
-  }

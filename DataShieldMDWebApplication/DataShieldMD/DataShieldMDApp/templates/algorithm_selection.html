@@ -1,8 +1,16 @@
+<!-- 
+Extends the base template for consistent layout 
+
+This is the template for our algorithm selection page. 
+-->
 {% extends 'partials/base.html' %}
 {% block content %}
 {% load static %}
 <div class="file-upload-container">
+    <!-- Page header displaying the current user's username -->
     <h2>{{ user.username }}'s Algorithm Selection and Processing</h2>
+    
+    <!-- Instructions for the user and a tutorial video.-->
     <p><b>Instructions:</b></p>
     <ul>
         <li>Select a file from your uploaded files directory.</li>
@@ -18,7 +26,7 @@
         </video>
     </ul>
 
-
+    <!-- Display non-field errors, if any -->
     {% if form.non_field_errors %}
     <div class="alert error">
         <ul>
@@ -31,21 +39,24 @@
     </div>
     {% endif %}
 
+    <!-- Algorithm selection and processing form -->
     <form class="algorithm_selection_form" method="post">
         {% csrf_token %}
         <!-- File Selection -->
         <div>
             <label for="file">Select File:</label>
             {{ form.file }}
+            <!-- Display errors related to file selection -->
             {% if form.file.errors %}
             <div class="field-error">{{ form.file.errors|join:", " }}</div>
             {% endif %}
         </div>
 
-        <!-- Sensitive Fields -->
+        <!-- Sensitive Fields Section -->
         <div>
             <label for="sensitive_fields">{{ form.sensitive_fields.label }}</label>
             {{ form.sensitive_fields }}
+            <!-- Display errors related to sensitive field input -->
             {% if form.sensitive_fields.errors %}
             <div class="field-error">{{ form.sensitive_fields.errors|join:", " }}</div>
             {% endif %}
@@ -54,6 +65,8 @@
         <!-- Algorithm Selection -->
         <fieldset>
             <legend>Select Anonymization Algorithms:</legend>
+            
+            <!-- K-Anonymity Configuration and displaying K-Anonymity errors-->
             <div>
                 {{ form.k_anonymity }}
                 <label for="k_anonymity">{{ form.k_anonymity.label }}</label>
@@ -62,6 +75,8 @@
                 <div class="field-error">{{ form.k_anonymity_k_value.errors|join:", " }}</div>
                 {% endif %}
             </div>
+            
+            <!-- L-Diversity Configuration and displaying L-Diversity errors -->
             <div>
                 {{ form.l_diversity }}
                 <label for="l_diversity">{{ form.l_diversity.label }}</label>
@@ -76,6 +91,8 @@
                 <div class="field-error">{{ form.l_value.errors|join:", " }}</div>
                 {% endif %}
             </div>
+            
+            <!-- T-Closeness Configuration and displaying T-Closeness errors -->
             <div>
                 {{ form.t_closeness }}
                 <label for="t_closeness">{{ form.t_closeness.label }}</label>
@@ -97,18 +114,22 @@
 </div>
 
 <script>
-    // Dynamically toggle input fields
+    // Dynamically toggle input fields based on checkbox state for each algorithm
     document.addEventListener('DOMContentLoaded', function () {
+        // Select all algorithm parameter inputs
         const toggleInputs = document.querySelectorAll('.algorithm-param');
+        // Get the corresponding checkbox ID
         toggleInputs.forEach(input => {
             const checkboxId = `id_${input.dataset.algo}`;
             const checkbox = document.getElementById(checkboxId);
 
             if (checkbox) {
+                // Toggle visibility based on checkbox state
                 input.style.display = checkbox.checked ? 'block' : 'none';
                 checkbox.addEventListener('change', () => {
                     input.style.display = checkbox.checked ? 'block' : 'none';
-                    if (!checkbox.checked) input.value = '';  // Clear value when unchecked
+                    // Clear value when unchecked
+                    if (!checkbox.checked) input.value = ''; 
                 });
             }
         });

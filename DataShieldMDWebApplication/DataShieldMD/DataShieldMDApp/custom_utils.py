@@ -1,8 +1,9 @@
 import pandas as pd
 
 '''
-Own implementon but it seems to be heading towards teh anonypy one so I might as well use that one.
- worth testing tho to see if it actually only partitions by qi and still keeps other fields
+Own implementon but it seems to be heading towards the anonypy implementation so I might as well just use that one since its more developed.
+
+Keeping this file to potentially work on this more in the future when time permits.
 '''
 def summarized(partition,dim,quasi_identifers):
     for qi in quasi_identifers:

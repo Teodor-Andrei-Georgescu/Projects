@@ -1,3 +1,11 @@
+<!--
+This entire template is used as the base for all the page.
+
+It loads the header template at the top and footer template at the bottom.
+Then in between the header and footer is where the body content goes which will be a template for each respective page.
+
+Furthermore, this template is also where the CSS styling file in embedded to style all the pages.
+-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,8 +28,10 @@
   </head>
 
   <body>
+    <!--This loads the header template.-->
     {% include "partials/header.html" %}
     
+    <!--This ensures messages get displayed on the page.-->
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
@@ -33,14 +43,14 @@
     </div>
     {% endif %}
 
+    <!--This block section is where the respective page templates will be loaded once they extend this base template.-->
     <main>
-       <!-- Begin block content --> 
        {% block content %}
         
        {% endblock %}
-      <!-- End block content --> 
     </main>
 
+    <!--This loads the footer template.-->
     {% include "partials/footer.html" %}
   </body>
 </html>

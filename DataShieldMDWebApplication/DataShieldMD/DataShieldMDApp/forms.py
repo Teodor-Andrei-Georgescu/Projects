@@ -4,9 +4,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 
 '''
+This file is for creating customs forms that to display on webpages as needed.
+'''
+
+'''
 Custom user registration from based on the default django form.
 
-It has some different help text and ensure user username and email.
+It has some different help text and ensures unique usernames and emails with validations.
 '''
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(
@@ -29,16 +33,23 @@ class UserRegistrationForm(UserCreationForm):
         help_text="Enter a valid email address. (Required)"
         )
 
+    #Define the fields to include in the form
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
     
+    """
+    Custom email validation to ensure email is unique.
+    """
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise ValidationError("This email address is already in use.")
         return email
     
+    """
+    Custom username validation to ensure username is unique.
+    """
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
@@ -46,30 +57,34 @@ class UserRegistrationForm(UserCreationForm):
         return username
 
 '''
-Simple form to file uploading.
+Simple form for uploading files with size and type validation.
 '''
 class FileUploadForm(forms.Form):
     file = forms.FileField(required=True,label="Select a file")
     
-    MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
+    #Maximum allowed file size (10 MB)
+    MAX_FILE_SIZE = 10 * 1024 * 1024
     
+    """
+    Simple custom validation for uploaded file type and size constraints.
+    """
     def clean_file(self):
         uploaded_file = self.cleaned_data.get('file')
         if uploaded_file:
-            # Get the file extension
+            #Get the file extension and validate it is one of the allowed extentions
             extension = uploaded_file.name.split('.')[-1].lower()
             allowed_extensions = ['xlsx', 'csv']
             if extension not in allowed_extensions:
                 raise ValidationError("Only .xlsx and .csv file types are allowed.")
         
+            #Get the file size and validate ite is less then our allowed file size
             if uploaded_file.size > self.MAX_FILE_SIZE:
                 raise ValidationError(f"File size must not exceed {self.MAX_FILE_SIZE / (1024 * 1024):.1f} MB.")
-
-        
+  
         return uploaded_file
     
 '''
-Algorithm selection form
+Form for selecting algorithms and their parameters for anonymization.
 '''
 class AlgorithmSelectionForm(forms.Form):
     file = forms.ChoiceField(label="Select File")
@@ -78,8 +93,7 @@ class AlgorithmSelectionForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder': 'e.g., Age or Salary or Disease'}),
         label="Sensitive Field:"
     )
-
-    # Checkboxes and parameter inputs
+    #K-Anonymity check box and value input field
     k_anonymity = forms.BooleanField(required=False, label="K-Anonymity")
     k_anonymity_k_value = forms.IntegerField(
         required=False,
@@ -90,6 +104,7 @@ class AlgorithmSelectionForm(forms.Form):
             'data-algo': 'k_anonymity'
         })
     )
+    #L-Diversity check box and value input fields
     l_diversity = forms.BooleanField(required=False, label="L-Diversity")
     l_diversity_k_value = forms.IntegerField(
         required=False,
@@ -109,6 +124,7 @@ class AlgorithmSelectionForm(forms.Form):
             'data-algo': 'l_diversity'
         })
     )
+    #T-Closeness check box and value input fields
     t_closeness = forms.BooleanField(required=False, label="T-Closeness")
     t_closeness_k_value = forms.IntegerField(
         required=False,
@@ -133,11 +149,17 @@ class AlgorithmSelectionForm(forms.Form):
         })
     )
 
+    """
+    Initialize form with dynamic file choices.
+    """
     def __init__(self, *args, **kwargs):
         file_choices = kwargs.pop('file_choices', [])
         super().__init__(*args, **kwargs)
         self.fields['file'].choices = file_choices
 
+    """
+    Validate algorithm selection and parameters.
+    """
     def clean(self):
         cleaned_data = super().clean()
 
@@ -182,11 +204,13 @@ class AlgorithmSelectionForm(forms.Form):
             t_closeness_k_value = cleaned_data.get('t_closeness_k_value')
             t_value = cleaned_data.get('t_value')
             
+            # Validate t_closeness_k_value
             if t_closeness_k_value is None:
                 self.add_error('t_closeness_k_value', "T-closeness K value is required if T-Closeness is selected. Make sure the value is at least 2.")
             elif t_closeness_k_value< 2:
                 self.add_error('t_closeness_k_value', "T-closeness K must be at least 2.")
     
+            # Validate t_value
             if t_value is None:
                 self.add_error('t_value', "T value is required if T-Closeness is selected.")
             elif not (0 <= t_value <= 1):

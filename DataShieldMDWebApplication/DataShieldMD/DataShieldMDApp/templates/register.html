@@ -1,10 +1,18 @@
+<!--
+Extends the base template for consistent layout 
+
+This template is for the register page.
+
+There isnt much because there exists a built-in django registration form.
+I did however, make some slight changes to the from but nonetheless we still simply load that form field by field.
+-->
 {% extends "partials/base.html" %}
 {% load static %}
 {% block content %}
 <div class="register-container">
     <h2>Register</h2>
     
-    <!-- Display non-field errors (e.g., form-wide errors) -->
+    <!-- Display non-field errors, which are those not related to a specific input field.-->
     {% if form.non_field_errors %}
     <div class="form-error">
         {{ form.non_field_errors }}

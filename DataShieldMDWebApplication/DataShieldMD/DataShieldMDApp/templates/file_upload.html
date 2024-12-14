@@ -1,8 +1,16 @@
+<!-- 
+Extends the base template for consistent layout 
+
+This is the template for our file upload page. 
+-->
 {% extends 'partials/base.html' %}
 {% block content %}
 <div class="file-upload-container">
+    <!-- This loads the title of the page with the user's username -->
     <h2>{{ user.username }}'s File Upload Page</h2>
     <p><b>Instructions</b></p>
+
+    <!-- Some instructions and guidlines as provided for users -->
     <ul>
         <li>Only xlsx or csv files are supported that are 10 MB or smaller. Also PLEASE NOTE xlsx files get converted to csv as per our processing procedure.</li>
         <li>Uploading a file with the same name with replace any current files with the same name on our end.</li>
@@ -12,7 +20,7 @@
         <li>Search criteria will persist until you clear it yourself.</li>
     </ul>
 
-    <!-- Display file upload type error -->
+    <!-- Display error messages related to file uploads -->
     {% if form.errors %}
     <div class="alert error">
         <ul>
@@ -23,6 +31,7 @@
     </div>
     {% endif %}
 
+    <!-- Display buttons to choose a file, display the file name, and upload button -->
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="file-upload">
@@ -33,16 +42,18 @@
         <button type="submit" class="btn">Upload</button>
     </form>
 
+     <!-- This section contains the search bar and displayed all files -->
     <h3>Your Uploaded Files</h3>
     <form method="get" class="search-form">
         <!-- Search Row -->
         <div class="search-row">
+            <!-- Input fields for searching files by name or date -->
             <input type="text" name="search" placeholder="Search files by name" value="{{ request.GET.search }}">
             <input type="date" name="search_date" placeholder="Search by date" value="{{ request.GET.search_date }}">
             <button type="submit" class="btn">Search</button>
         </div>
 
-        <!-- Toggle Switch -->
+        <!-- Toggle Switch for viewing current or all files -->
         <div class="toggle-switch">
             <label class="switch">
                 <input type="checkbox" name="view_mode" value="current" {% if request.GET.view_mode == 'current' %}checked{% endif %} onchange="this.form.submit()">
@@ -58,7 +69,8 @@
                 <th>File Name</th>
                 <th>Upload Date</th>
                 {% if view_mode == 'current' %}
-                <th>Actions</th> <!-- Add an Actions column only in Current View -->
+                <!-- Add Actions column for deleting files in Current View -->
+                <th>Actions</th> 
                 {% endif %}
             </tr>
         </thead>
@@ -69,7 +81,7 @@
                 <td>{{ file.upload_date }}</td>
                 {% if view_mode == 'current' %}
                 <td>
-                    <!-- Add a Delete Button -->
+                    <!-- Add Delete Button for current files -->
                     <form method="post" style="display:inline;">
                         {% csrf_token %}
                         <input type="hidden" name="delete_file" value="{{ file.filename }}">
@@ -79,6 +91,7 @@
                 {% endif %}
             </tr>
             {% empty %}
+            <!-- Display message if no files are found -->
             <tr>
                 <td colspan="{% if view_mode == 'current' %}3{% else %}2{% endif %}" class="empty">No files found</td>
             </tr>
@@ -89,15 +102,18 @@
     <!-- Pagination Controls -->
     <div class="pagination">
         <span class="step-links">
+            <!-- Links for first and previous page -->
             {% if page_obj.has_previous %}
                 <a href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}">&laquo; first</a>
                 <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">previous</a>
             {% endif %}
     
+            <!-- Current page number indicator -->
             <span class="current">
                 Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
             </span>
     
+            <!-- Links for next and last page -->
             {% if page_obj.has_next %}
                 <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}">next</a>
                 <a href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}">last &raquo;</a>
@@ -106,6 +122,7 @@
     </div>
 </div>
 <script>
+    //Update the displayed file name when a file is selected
     document.getElementById('file-input').addEventListener('change', function () {
         const fileNameSpan = document.getElementById('file-name');
         const fileName = this.files[0] ? this.files[0].name : 'No file selected';

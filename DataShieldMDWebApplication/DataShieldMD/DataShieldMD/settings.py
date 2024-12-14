@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-#This is the django version for PST
+#This is the django version for PST timezone for proper database tracking.
 TIME_ZONE = 'America/Los_Angeles'
 
 USE_I18N = True
@@ -123,9 +123,9 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 STATIC_URL = 'static/'
 
 
-# Media files settings
-MEDIA_URL = '/media/'  # URL to access media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Directory to store media files
+#Creeated a Media folder where user uploads and processed datasets will be stored.
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') 
 '''
 import jnius_config
 
