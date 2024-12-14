@@ -42,7 +42,7 @@ This project is a web-based application designed to help users securely process 
 
 ### **Option 1: Docker deployment**
 The easiest way to access this application is to run it using docker. I have already created a Docker image for this application and posted it on my Dockerhub.
-This image along with instructions can be found at [https://hub.docker.com/repository/docker/teodorandreigeorgescu/datashieldmd/general](here).
+This image along with instructions can be found at [https://hub.docker.com/r/teodorandreigeorgescu/datashieldmd](here).
 
 ### **Option 2: Local Django deployment**
 
